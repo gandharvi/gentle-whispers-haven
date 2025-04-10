@@ -248,12 +248,12 @@ const ConversationInterface: React.FC = () => {
         </Button>
       </div>
       
-      <div className="flex-1 overflow-y-auto mb-4 space-y-4 pr-2">
+      <div className="flex-1 overflow-y-auto mb-4 space-y-4 pr-2 h-[360px]">
         {messages.map((message) => (
           <div
             key={message.id}
             className={cn(
-              "flex w-max max-w-[80%] rounded-2xl px-4 py-3 animate-fade-up",
+              "flex max-w-[80%] rounded-2xl px-4 py-3 animate-fade-up",
               message.sender === 'user'
                 ? "ml-auto bg-solace-lavender text-foreground"
                 : "bg-white border border-gray-100 shadow-sm"
@@ -265,7 +265,7 @@ const ConversationInterface: React.FC = () => {
         <div ref={endOfMessagesRef} />
       </div>
       
-      <div className="border-t pt-4">
+      <div className="border-t pt-4 mt-auto">
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
@@ -281,7 +281,8 @@ const ConversationInterface: React.FC = () => {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Type your message or click the mic to speak..."
-            className="min-h-[40px] resize-none flex-1"
+            className="min-h-[40px] max-h-[120px] resize-none flex-1 overflow-y-auto"
+            rows={1}
           />
           
           <Button 
