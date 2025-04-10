@@ -68,6 +68,10 @@ export default {
 					peach: '#FDE1D3',
 					blue: '#D3E4FD',
 					cream: '#FFFAF0',
+					'dark-purple': '#1A1F2C',
+					'dark-blue': '#2E3649',
+					'dark-lavender': '#7E69AB',
+					'dark-gray': '#403E43',
 				}
 			},
 			borderRadius: {

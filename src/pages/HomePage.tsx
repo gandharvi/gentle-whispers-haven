@@ -3,24 +3,29 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Heart, MessageCircle, PencilLine, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 const HomePage = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen transition-colors duration-300">
       {/* Header */}
-      <header className="py-4 px-6 flex justify-between items-center border-b border-solace-lavender/20 shadow-sm bg-white/80 backdrop-blur-sm">
+      <header className="py-4 px-6 flex justify-between items-center border-b border-solace-lavender/20 dark:border-solace-dark-lavender/20 shadow-sm bg-white/80 dark:bg-solace-dark-purple/80 backdrop-blur-sm">
         <div className="flex items-center">
-          <Heart className="h-6 w-6 mr-2 text-solace-lavender" />
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+          <Heart className="h-6 w-6 mr-2 text-solace-lavender dark:text-solace-dark-lavender" />
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
             Solace
           </h1>
+        </div>
+        
+        <div className="flex items-center">
+          <ThemeToggle />
         </div>
       </header>
       
       {/* Main Content */}
       <main className="solace-container py-8">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-500 to-pink-500 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
             Welcome to Solace
           </h1>
           <p className="text-xl md:text-2xl font-medium text-foreground/80 max-w-2xl mx-auto">
@@ -32,8 +37,8 @@ const HomePage = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Conversation Feature */}
             <div className="solace-card flex flex-col items-center text-center p-6">
-              <div className="mb-4 bg-solace-lavender/10 p-4 rounded-full">
-                <MessageCircle className="h-8 w-8 text-solace-lavender" />
+              <div className="mb-4 bg-solace-lavender/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
+                <MessageCircle className="h-8 w-8 text-solace-lavender dark:text-solace-dark-lavender" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Supportive Conversation</h3>
               <p className="text-foreground/70 mb-4">
@@ -48,8 +53,8 @@ const HomePage = () => {
             
             {/* Drawing Feature */}
             <div className="solace-card flex flex-col items-center text-center p-6">
-              <div className="mb-4 bg-solace-lavender/10 p-4 rounded-full">
-                <PencilLine className="h-8 w-8 text-solace-lavender" />
+              <div className="mb-4 bg-solace-lavender/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
+                <PencilLine className="h-8 w-8 text-solace-lavender dark:text-solace-dark-lavender" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Express Through Art</h3>
               <p className="text-foreground/70 mb-4">
@@ -64,8 +69,8 @@ const HomePage = () => {
             
             {/* Grounding Feature */}
             <div className="solace-card flex flex-col items-center text-center p-6">
-              <div className="mb-4 bg-solace-lavender/10 p-4 rounded-full">
-                <Sparkles className="h-8 w-8 text-solace-lavender" />
+              <div className="mb-4 bg-solace-lavender/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
+                <Sparkles className="h-8 w-8 text-solace-lavender dark:text-solace-dark-lavender" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Grounding Exercises</h3>
               <p className="text-foreground/70 mb-4">
@@ -96,7 +101,7 @@ const HomePage = () => {
       </main>
       
       {/* Footer */}
-      <footer className="py-4 px-6 text-center text-foreground/60 text-sm border-t border-solace-lavender/20 mt-8">
+      <footer className="py-4 px-6 text-center text-foreground/60 text-sm border-t border-solace-lavender/20 dark:border-solace-dark-lavender/20 mt-8">
         <p>Solace — A safe space for emotional well-being.</p>
       </footer>
     </div>

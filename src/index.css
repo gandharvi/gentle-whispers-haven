@@ -38,21 +38,59 @@
     --radius: 1rem;
   }
 
+  .dark {
+    --background: 240 25% 15%;
+    --foreground: 240 10% 95%;
+
+    --card: 240 25% 18%;
+    --card-foreground: 240 10% 95%;
+
+    --popover: 240 25% 18%;
+    --popover-foreground: 240 10% 95%;
+
+    --primary: 250 40% 60%;
+    --primary-foreground: 240 10% 95%;
+
+    --secondary: 240 25% 22%;
+    --secondary-foreground: 240 10% 95%;
+
+    --muted: 240 25% 25%;
+    --muted-foreground: 240 10% 70%;
+
+    --accent: 260 30% 30%;
+    --accent-foreground: 240 10% 95%;
+
+    --destructive: 0 62.8% 40.6%;
+    --destructive-foreground: 240 10% 95%;
+
+    --border: 240 25% 30%;
+    --input: 240 25% 30%;
+    --ring: 250 40% 60%;
+  }
+
   * {
     @apply border-border;
   }
 
   body {
     @apply bg-background text-foreground font-quicksand;
+    min-height: 100vh;
+  }
+
+  .light-bg {
     background-image: linear-gradient(to bottom right, rgb(229, 222, 255, 0.5), rgb(211, 228, 253, 0.5));
     background-attachment: fixed;
-    min-height: 100vh;
+  }
+
+  .dark-bg {
+    background-image: linear-gradient(to bottom right, rgba(30, 25, 50, 0.7), rgba(25, 30, 55, 0.7));
+    background-attachment: fixed;
   }
 }
 
 @layer components {
   .solace-gradient {
-    @apply bg-gradient-to-br from-solace-lavender via-solace-blue to-solace-peach;
+    @apply bg-gradient-to-br from-solace-lavender via-solace-blue to-solace-peach dark:from-solace-dark-lavender dark:via-solace-dark-blue dark:to-solace-dark-purple;
   }
   
   .solace-container {
@@ -60,14 +98,14 @@
   }
   
   .solace-card {
-    @apply bg-white/80 backdrop-blur-sm rounded-2xl shadow-md border border-white/20 p-6;
+    @apply bg-white/80 dark:bg-solace-dark-purple/80 backdrop-blur-sm rounded-2xl shadow-md border border-white/20 dark:border-white/5 p-6 transition-colors duration-300;
   }
   
   .solace-button {
-    @apply px-4 py-2 bg-solace-lavender hover:bg-solace-lavender/90 text-foreground rounded-full transition-all duration-300 font-medium shadow-sm hover:shadow flex items-center justify-center gap-2;
+    @apply px-4 py-2 bg-solace-lavender dark:bg-solace-dark-lavender hover:bg-solace-lavender/90 dark:hover:bg-solace-dark-lavender/90 text-foreground rounded-full transition-all duration-300 font-medium shadow-sm hover:shadow flex items-center justify-center gap-2;
   }
   
   .solace-input {
-    @apply px-4 py-3 bg-white/80 rounded-full border border-solace-lavender/50 focus:border-solace-lavender focus:ring-2 focus:ring-solace-lavender/30 focus:outline-none w-full transition-all duration-300;
+    @apply px-4 py-3 bg-white/80 dark:bg-solace-dark-blue/50 rounded-full border border-solace-lavender/50 dark:border-solace-dark-lavender/30 focus:border-solace-lavender dark:focus:border-solace-dark-lavender focus:ring-2 focus:ring-solace-lavender/30 dark:focus:ring-solace-dark-lavender/20 focus:outline-none w-full transition-all duration-300;
   }
 }
