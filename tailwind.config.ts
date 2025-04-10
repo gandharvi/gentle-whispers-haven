@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,12 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				solace: {
+					lavender: '#E5DEFF',
+					peach: '#FDE1D3',
+					blue: '#D3E4FD',
+					cream: '#FFFAF0',
 				}
 			},
 			borderRadius: {
@@ -84,11 +91,34 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'breathe-in': {
+					'0%': { transform: 'scale(1)', opacity: '0.8' },
+					'100%': { transform: 'scale(1.5)', opacity: '1' }
+				},
+				'breathe-out': {
+					'0%': { transform: 'scale(1.5)', opacity: '1' },
+					'100%': { transform: 'scale(1)', opacity: '0.8' }
+				},
+				'fade-in': {
+					'0%': { opacity: '0' },
+					'100%': { opacity: '1' }
+				},
+				'fade-up': {
+					'0%': { opacity: '0', transform: 'translateY(10px)' },
+					'100%': { opacity: '1', transform: 'translateY(0)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'breathe-in': 'breathe-in 4s ease-in-out forwards',
+				'breathe-out': 'breathe-out 4s ease-in-out forwards',
+				'fade-in': 'fade-in 0.5s ease-out',
+				'fade-up': 'fade-up 0.5s ease-out'
+			},
+			fontFamily: {
+				'quicksand': ['Quicksand', 'sans-serif']
 			}
 		}
 	},
