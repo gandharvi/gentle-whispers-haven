@@ -8,25 +8,25 @@
 @layer base {
   :root {
     --background: 250 100% 98%;
-    --foreground: 240 10% 30%;
+    --foreground: 240 10% 20%;
 
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 30%;
+    --card-foreground: 240 10% 20%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 30%;
+    --popover-foreground: 240 10% 20%;
 
     --primary: 250 100% 90%;
-    --primary-foreground: 240 10% 30%;
+    --primary-foreground: 240 10% 20%;
 
     --secondary: 260 100% 96%;
-    --secondary-foreground: 240 10% 30%;
+    --secondary-foreground: 240 10% 20%;
 
     --muted: 240 5% 96%;
-    --muted-foreground: 240 5% 60%;
+    --muted-foreground: 240 5% 45%;
 
     --accent: 30 100% 94%;
-    --accent-foreground: 240 10% 30%;
+    --accent-foreground: 240 10% 20%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
@@ -40,32 +40,32 @@
 
   .dark {
     --background: 240 25% 15%;
-    --foreground: 240 10% 95%;
+    --foreground: 240 10% 98%;
 
     --card: 240 25% 18%;
-    --card-foreground: 240 10% 95%;
+    --card-foreground: 240 10% 98%;
 
     --popover: 240 25% 18%;
-    --popover-foreground: 240 10% 95%;
+    --popover-foreground: 240 10% 98%;
 
-    --primary: 250 40% 60%;
-    --primary-foreground: 240 10% 95%;
+    --primary: 250 40% 70%;
+    --primary-foreground: 240 10% 98%;
 
     --secondary: 240 25% 22%;
-    --secondary-foreground: 240 10% 95%;
+    --secondary-foreground: 240 10% 98%;
 
     --muted: 240 25% 25%;
-    --muted-foreground: 240 10% 70%;
+    --muted-foreground: 240 10% 80%;
 
-    --accent: 260 30% 30%;
-    --accent-foreground: 240 10% 95%;
+    --accent: 260 30% 40%;
+    --accent-foreground: 240 10% 98%;
 
     --destructive: 0 62.8% 40.6%;
-    --destructive-foreground: 240 10% 95%;
+    --destructive-foreground: 240 10% 98%;
 
     --border: 240 25% 30%;
     --input: 240 25% 30%;
-    --ring: 250 40% 60%;
+    --ring: 250 40% 70%;
   }
 
   * {
@@ -83,7 +83,7 @@
   }
 
   .dark-bg {
-    background-image: linear-gradient(to bottom right, rgba(30, 25, 50, 0.7), rgba(25, 30, 55, 0.7));
+    background-image: linear-gradient(to bottom right, rgba(30, 25, 50, 0.8), rgba(25, 30, 55, 0.8));
     background-attachment: fixed;
   }
 }
@@ -98,7 +98,7 @@
   }
   
   .solace-card {
-    @apply bg-white/80 dark:bg-solace-dark-purple/80 backdrop-blur-sm rounded-2xl shadow-md border border-white/20 dark:border-white/5 p-6 transition-colors duration-300;
+    @apply bg-white/90 dark:bg-solace-dark-purple/90 backdrop-blur-sm rounded-2xl shadow-md border border-white/20 dark:border-white/10 p-6 transition-colors duration-300;
   }
   
   .solace-button {
@@ -106,6 +106,6 @@
   }
   
   .solace-input {
-    @apply px-4 py-3 bg-white/80 dark:bg-solace-dark-blue/50 rounded-full border border-solace-lavender/50 dark:border-solace-dark-lavender/30 focus:border-solace-lavender dark:focus:border-solace-dark-lavender focus:ring-2 focus:ring-solace-lavender/30 dark:focus:ring-solace-dark-lavender/20 focus:outline-none w-full transition-all duration-300;
+    @apply px-4 py-3 bg-white/90 dark:bg-solace-dark-blue/70 rounded-full border border-solace-lavender/50 dark:border-solace-dark-lavender/30 focus:border-solace-lavender dark:focus:border-solace-dark-lavender focus:ring-2 focus:ring-solace-lavender/30 dark:focus:ring-solace-dark-lavender/20 focus:outline-none w-full transition-all duration-300;
   }
 }

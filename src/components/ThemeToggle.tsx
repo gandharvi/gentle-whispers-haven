@@ -26,16 +26,16 @@ export function ThemeToggle({ className }: { className?: string }) {
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="bg-white dark:bg-solace-dark-purple">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
+      <DropdownMenuContent align="end" className="bg-white/95 dark:bg-solace-dark-purple/95 border border-solace-lavender/30 dark:border-solace-dark-lavender/30">
+        <DropdownMenuItem onClick={() => setTheme("light")} className="font-medium text-foreground">
           <Sun className="mr-2 h-4 w-4" />
           <span>Light</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
+        <DropdownMenuItem onClick={() => setTheme("dark")} className="font-medium text-foreground">
           <Moon className="mr-2 h-4 w-4" />
           <span>Dark</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
+        <DropdownMenuItem onClick={() => setTheme("system")} className="font-medium text-foreground">
           <span className="mr-2">💻</span>
           <span>System</span>
         </DropdownMenuItem>

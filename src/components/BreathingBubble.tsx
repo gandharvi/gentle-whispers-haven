@@ -40,8 +40,8 @@ const BreathingBubble: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center p-8">
       <div className="text-center mb-6">
-        <p className="text-lg font-medium text-foreground/80 mb-1">{instruction}</p>
-        <p className="text-sm text-foreground/60">Follow the bubble's rhythm</p>
+        <p className="text-lg font-medium text-foreground mb-1">{instruction}</p>
+        <p className="text-sm text-foreground/80">Follow the bubble's rhythm</p>
       </div>
       
       <div className="relative flex items-center justify-center w-48 h-48">
@@ -50,12 +50,13 @@ const BreathingBubble: React.FC = () => {
             "absolute rounded-full bg-gradient-to-br from-solace-lavender/70 to-solace-blue/70 backdrop-blur-sm",
             "transition-all duration-[4000ms] ease-in-out",
             "shadow-lg shadow-solace-lavender/20",
-            "flex items-center justify-center text-white/90 font-medium",
+            "flex items-center justify-center text-foreground font-medium",
+            "border-2 border-solace-lavender dark:border-solace-dark-lavender",
             isBreathingIn ? "animate-breathe-in" : "animate-breathe-out"
           )}
           style={{ width: '120px', height: '120px' }}
         >
-          <span className="text-sm">{isBreathingIn ? "In" : "Out"}</span>
+          <span className="text-sm font-semibold">{isBreathingIn ? "In" : "Out"}</span>
         </div>
       </div>
     </div>
