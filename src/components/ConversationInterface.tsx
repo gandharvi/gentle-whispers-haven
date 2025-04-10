@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Mic, Send, MicOff, Volume2, VolumeX } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from '@/components/ui/use-toast';
 
 interface Message {
   id: string;
@@ -12,19 +14,38 @@ interface Message {
   timestamp: Date;
 }
 
-// Sample AI responses for the demo
-const aiResponses = [
-  "I'm here with you. It sounds like you're going through a difficult time right now.",
-  "That's completely understandable. Your feelings are valid, and it's okay to feel this way.",
-  "You're showing such strength by acknowledging these emotions. Would taking a few deep breaths help?",
-  "Remember, healing isn't linear. Some days are harder than others, and that's normal.",
-  "I notice you're feeling overwhelmed. Let's try to focus on just this moment right now.",
-  "You're not alone in this. Many people experience similar feelings.",
-  "That sounds really challenging. Is there something small that might bring you comfort right now?",
-  "I appreciate you sharing this with me. It takes courage to express these feelings.",
-  "Would it help to try our grounding exercise? It can help bring you back to the present moment.",
-  "Your resilience through this is remarkable, even if it doesn't feel that way right now."
-];
+// Define the SpeechRecognition types to fix TS errors
+interface SpeechRecognitionEvent extends Event {
+  results: SpeechRecognitionResultList;
+}
+
+interface SpeechRecognitionResult {
+  transcript: string;
+  isFinal: boolean;
+}
+
+interface SpeechRecognitionResultList {
+  length: number;
+  item(index: number): SpeechRecognitionResult;
+  [index: number]: SpeechRecognitionResult;
+}
+
+interface SpeechRecognition extends EventTarget {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  start(): void;
+  stop(): void;
+  onresult: ((event: SpeechRecognitionEvent) => void) | null;
+  onerror: ((event: Event) => void) | null;
+}
+
+declare global {
+  interface Window {
+    SpeechRecognition?: new () => SpeechRecognition;
+    webkitSpeechRecognition?: new () => SpeechRecognition;
+  }
+}
 
 const ConversationInterface: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
@@ -38,7 +59,9 @@ const ConversationInterface: React.FC = () => {
   const [input, setInput] = useState('');
   const [isListening, setIsListening] = useState(false);
   const [audioEnabled, setAudioEnabled] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
   
   // Speech recognition
   const recognitionRef = useRef<SpeechRecognition | null>(null);
@@ -48,25 +71,25 @@ const ConversationInterface: React.FC = () => {
   
   useEffect(() => {
     // Set up speech recognition if available
-    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      recognitionRef.current = new SpeechRecognition();
+    if (window.SpeechRecognition || window.webkitSpeechRecognition) {
+      const SpeechRecognitionConstructor = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognitionRef.current = new SpeechRecognitionConstructor();
       
       if (recognitionRef.current) {
         recognitionRef.current.continuous = true;
         recognitionRef.current.interimResults = true;
         
-        recognitionRef.current.onresult = (event) => {
-          const transcript = Array.from(event.results)
-            .map(result => result[0])
-            .map(result => result.transcript)
-            .join('');
+        recognitionRef.current.onresult = (event: SpeechRecognitionEvent) => {
+          let transcript = '';
+          for (let i = 0; i < event.results.length; i++) {
+            transcript += event.results[i][0].transcript;
+          }
           
           setInput(transcript);
         };
         
         recognitionRef.current.onerror = (event) => {
-          console.error('Speech recognition error', event.error);
+          console.error('Speech recognition error', event);
           setIsListening(false);
         };
       }
@@ -151,8 +174,31 @@ const ConversationInterface: React.FC = () => {
     window.speechSynthesis.speak(synthRef.current);
   };
   
-  const sendMessage = () => {
-    if (!input.trim()) return;
+  const fetchAIResponse = async (userMessage: string) => {
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('ai-conversation', {
+        body: { message: userMessage }
+      });
+      
+      if (error) throw error;
+      
+      return data.response;
+    } catch (error) {
+      console.error('Error fetching AI response:', error);
+      toast({
+        title: "Error",
+        description: "Unable to get a response. Please try again.",
+        variant: "destructive"
+      });
+      return "I'm sorry, I'm having trouble responding right now. Could you try again in a moment?";
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  const sendMessage = async () => {
+    if (!input.trim() || isLoading) return;
     
     // Add user message
     const userMessage: Message = {
@@ -165,22 +211,20 @@ const ConversationInterface: React.FC = () => {
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     
-    // Simulate AI response
-    setTimeout(() => {
-      const randomResponse = aiResponses[Math.floor(Math.random() * aiResponses.length)];
-      
-      const aiMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        text: randomResponse,
-        sender: 'ai',
-        timestamp: new Date()
-      };
-      
-      setMessages(prev => [...prev, aiMessage]);
-      
-      // Speak the AI response
-      speakMessage(randomResponse);
-    }, 1000);
+    // Get AI response
+    const aiText = await fetchAIResponse(input);
+    
+    const aiMessage: Message = {
+      id: (Date.now() + 1).toString(),
+      text: aiText,
+      sender: 'ai',
+      timestamp: new Date()
+    };
+    
+    setMessages(prev => [...prev, aiMessage]);
+    
+    // Speak the AI response
+    speakMessage(aiText);
   };
   
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -240,7 +284,12 @@ const ConversationInterface: React.FC = () => {
             className="min-h-[40px] resize-none flex-1"
           />
           
-          <Button size="icon" onClick={sendMessage} disabled={!input.trim()}>
+          <Button 
+            size="icon" 
+            onClick={sendMessage} 
+            disabled={!input.trim() || isLoading}
+            className={isLoading ? "opacity-70" : ""}
+          >
             <Send size={18} />
           </Button>
         </div>

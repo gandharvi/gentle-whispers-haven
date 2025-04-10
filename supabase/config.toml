@@ -1,1 +1,5 @@
+
 project_id = "rgkkmlmznkitetgqxsdi"
+
+[functions.ai-conversation]
+verify_jwt = false
