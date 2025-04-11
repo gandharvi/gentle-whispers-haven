@@ -1,9 +1,12 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Heart, MessageCircle, PencilLine, Sparkles } from 'lucide-react';
+import { Heart, MessageCircle, PencilLine, Sparkles, Gamepad } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import DailyAffirmation from '@/components/DailyAffirmation';
+import MoodRatingSlider from '@/components/MoodRatingSlider';
+import MemoryGame from '@/components/MemoryGame';
 
 const HomePage = () => {
   return (
@@ -34,7 +37,31 @@ const HomePage = () => {
         </div>
         
         <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Featured Components Section */}
+          <div className="mb-12">
+            <h2 className="text-2xl font-semibold mb-6 text-center">Today's Wellness Tools</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Daily Affirmation */}
+              <div className="h-[400px]">
+                <DailyAffirmation showOnLoad={true} />
+              </div>
+              
+              {/* Mood Rating Slider */}
+              <div className="h-[400px]">
+                <MoodRatingSlider />
+              </div>
+            </div>
+          </div>
+          
+          {/* Memory Game Section */}
+          <div className="mb-12">
+            <h2 className="text-2xl font-semibold mb-6 text-center">Relaxing Game</h2>
+            <div className="h-[500px]">
+              <MemoryGame />
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
             {/* Conversation Feature */}
             <div className="solace-card flex flex-col items-center text-center p-6">
               <div className="mb-4 bg-solace-lavender/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
