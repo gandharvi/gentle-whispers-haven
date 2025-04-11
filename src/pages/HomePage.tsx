@@ -64,7 +64,7 @@ const HomePage = () => {
                 <p className="text-foreground/70 mb-4">
                   Track your daily emotional state with a simple, visual tool to monitor your wellbeing.
                 </p>
-                <Link to="/index?tab=mood" className="mt-auto">
+                <Link to="/index#mood" className="mt-auto">
                   <Button variant="outline" className="w-full">
                     Rate Your Mood
                   </Button>
@@ -80,7 +80,7 @@ const HomePage = () => {
                 <p className="text-foreground/70 mb-4">
                   Start your day with positive affirmations that inspire confidence and peace.
                 </p>
-                <Link to="/index?tab=affirmation" className="mt-auto">
+                <Link to="/index#affirmation" className="mt-auto">
                   <Button variant="outline" className="w-full">
                     View Affirmations
                   </Button>
@@ -132,7 +132,7 @@ const HomePage = () => {
               <p className="text-foreground/70 mb-4">
                 Calm your mind with a simple memory matching game using peaceful symbols.
               </p>
-              <Link to="/index?tab=games" className="mt-auto">
+              <Link to="/index#games" className="mt-auto">
                 <Button variant="outline" className="w-full">
                   Play Game
                 </Button>

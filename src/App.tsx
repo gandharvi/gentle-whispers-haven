@@ -9,6 +9,7 @@ import ConversationPage from "./pages/ConversationPage";
 import DrawingPage from "./pages/DrawingPage";
 import GroundingPage from "./pages/GroundingPage";
 import NotFound from "./pages/NotFound";
+import Index from "./pages/Index";
 import { ThemeProvider } from "./components/ThemeProvider";
 
 const queryClient = new QueryClient();
@@ -25,6 +26,7 @@ const App = () => (
             <Route path="/conversation" element={<ConversationPage />} />
             <Route path="/drawing" element={<DrawingPage />} />
             <Route path="/grounding" element={<GroundingPage />} />
+            <Route path="/index" element={<Index />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

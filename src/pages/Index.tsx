@@ -1,5 +1,6 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -18,6 +19,20 @@ import MemoryGame from '@/components/MemoryGame';
 const Index = () => {
   const [journalEntry, setJournalEntry] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('conversation');
+  const location = useLocation();
+  
+  // Handle hash fragments for direct tab navigation
+  useEffect(() => {
+    // Check if there's a hash in the URL and set the active tab accordingly
+    if (location.hash) {
+      const tab = location.hash.substring(1); // Remove the # character
+      const validTabs = ['conversation', 'drawing', 'grounding', 'affirmation', 'mood', 'games'];
+      if (validTabs.includes(tab)) {
+        setActiveTab(tab);
+      }
+    }
+  }, [location]);
   
   const handleJournalSubmit = () => {
     // Save journal entry to localStorage
@@ -150,7 +165,7 @@ const Index = () => {
           
           {/* Main Content Area */}
           <div className="space-y-6">
-            <Tabs defaultValue="conversation" className="w-full">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="grid w-full grid-cols-6">
                 <TabsTrigger value="conversation" className="flex items-center gap-2">
                   <MessageCircle size={16} />
