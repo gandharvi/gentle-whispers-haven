@@ -1,12 +1,10 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Heart, MessageCircle, PencilLine, Sparkles, Gamepad } from 'lucide-react';
+import { Heart, MessageCircle, PencilLine, Sparkles, Gamepad, Activity, CalendarCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import DailyAffirmation from '@/components/DailyAffirmation';
-import MoodRatingSlider from '@/components/MoodRatingSlider';
-import MemoryGame from '@/components/MemoryGame';
 
 const HomePage = () => {
   return (
@@ -37,47 +35,62 @@ const HomePage = () => {
         </div>
         
         <div className="max-w-4xl mx-auto">
-          {/* Featured Components Section */}
+          {/* Featured Section - Primary Tools */}
           <div className="mb-12">
-            <h2 className="text-2xl font-semibold mb-6 text-center">Today's Wellness Tools</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Daily Affirmation */}
-              <div className="h-[400px]">
-                <DailyAffirmation showOnLoad={true} />
+            <h2 className="text-2xl font-semibold mb-6 text-center">Featured Wellness Tools</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Conversation Feature */}
+              <div className="solace-card flex flex-col items-center text-center p-6">
+                <div className="mb-4 bg-solace-lavender/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
+                  <MessageCircle className="h-8 w-8 text-solace-lavender dark:text-solace-dark-lavender" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Supportive Conversation</h3>
+                <p className="text-foreground/70 mb-4">
+                  Speak or type freely with a compassionate AI companion who listens without judgment.
+                </p>
+                <Link to="/conversation" className="mt-auto">
+                  <Button className="w-full">
+                    Start a Conversation
+                  </Button>
+                </Link>
               </div>
               
-              {/* Mood Rating Slider */}
-              <div className="h-[400px]">
-                <MoodRatingSlider />
+              {/* Mood Rating Feature */}
+              <div className="solace-card flex flex-col items-center text-center p-6">
+                <div className="mb-4 bg-solace-lavender/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
+                  <Activity className="h-8 w-8 text-solace-lavender dark:text-solace-dark-lavender" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Mood Rating</h3>
+                <p className="text-foreground/70 mb-4">
+                  Track your daily emotional state with a simple, visual tool to monitor your wellbeing.
+                </p>
+                <Link to="/index?tab=mood" className="mt-auto">
+                  <Button variant="outline" className="w-full">
+                    Rate Your Mood
+                  </Button>
+                </Link>
+              </div>
+              
+              {/* Daily Affirmation Feature */}
+              <div className="solace-card flex flex-col items-center text-center p-6">
+                <div className="mb-4 bg-solace-lavender/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
+                  <CalendarCheck className="h-8 w-8 text-solace-lavender dark:text-solace-dark-lavender" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Daily Affirmations</h3>
+                <p className="text-foreground/70 mb-4">
+                  Start your day with positive affirmations that inspire confidence and peace.
+                </p>
+                <Link to="/index?tab=affirmation" className="mt-auto">
+                  <Button variant="outline" className="w-full">
+                    View Affirmations
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
           
-          {/* Memory Game Section */}
-          <div className="mb-12">
-            <h2 className="text-2xl font-semibold mb-6 text-center">Relaxing Game</h2>
-            <div className="h-[500px]">
-              <MemoryGame />
-            </div>
-          </div>
-          
+          {/* Secondary Features */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-            {/* Conversation Feature */}
-            <div className="solace-card flex flex-col items-center text-center p-6">
-              <div className="mb-4 bg-solace-lavender/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
-                <MessageCircle className="h-8 w-8 text-solace-lavender dark:text-solace-dark-lavender" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Supportive Conversation</h3>
-              <p className="text-foreground/70 mb-4">
-                Speak or type freely with a compassionate AI companion who listens without judgment.
-              </p>
-              <Link to="/conversation" className="mt-auto">
-                <Button className="w-full">
-                  Start a Conversation
-                </Button>
-              </Link>
-            </div>
-            
             {/* Drawing Feature */}
             <div className="solace-card flex flex-col items-center text-center p-6">
               <div className="mb-4 bg-solace-lavender/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
@@ -109,6 +122,22 @@ const HomePage = () => {
                 </Button>
               </Link>
             </div>
+            
+            {/* Memory Game Feature */}
+            <div className="solace-card flex flex-col items-center text-center p-6">
+              <div className="mb-4 bg-solace-lavender/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
+                <Gamepad className="h-8 w-8 text-solace-lavender dark:text-solace-dark-lavender" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Relaxing Game</h3>
+              <p className="text-foreground/70 mb-4">
+                Calm your mind with a simple memory matching game using peaceful symbols.
+              </p>
+              <Link to="/index?tab=games" className="mt-auto">
+                <Button variant="outline" className="w-full">
+                  Play Game
+                </Button>
+              </Link>
+            </div>
           </div>
           
           <div className="mt-12 text-center">
@@ -131,6 +160,9 @@ const HomePage = () => {
       <footer className="py-4 px-6 text-center text-foreground/60 text-sm border-t border-solace-lavender/20 dark:border-solace-dark-lavender/20 mt-8">
         <p>Solace — A safe space for emotional well-being.</p>
       </footer>
+      
+      {/* Daily Affirmation Pop-up */}
+      <DailyAffirmation showOnLoad={true} />
     </div>
   );
 };
