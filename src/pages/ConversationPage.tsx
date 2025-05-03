@@ -9,7 +9,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 
 const ConversationPage = () => {
   return (
-    <div className="min-h-screen transition-colors duration-300">
+    <div className="min-h-screen flex flex-col transition-colors duration-300">
       {/* Header */}
       <header className="py-4 px-6 flex justify-between items-center border-b border-solace-lavender/20 dark:border-solace-dark-lavender/20 shadow-sm bg-white/80 dark:bg-solace-dark-purple/80 backdrop-blur-sm">
         <div className="flex items-center">
@@ -32,31 +32,37 @@ const ConversationPage = () => {
         </div>
       </header>
       
-      {/* Main Content */}
-      <main className="solace-container py-8">
-        <div className="text-center mb-8">
+      {/* Main Content - Full screen */}
+      <main className="flex-1 flex flex-col">
+        <div className="text-center py-6">
           <h2 className="text-xl md:text-2xl font-medium text-foreground/80">
             "You're not alone. I'm here, and we'll take it one gentle breath at a time."
           </h2>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8">
-          {/* Sidebar */}
-          <div className="space-y-6">
-            <div className="solace-card">
-              <BreathingBubble />
+        <div className="flex-1 flex flex-col md:flex-row gap-4 px-4 md:px-8 pb-6">
+          {/* Breathing Exercise - Sidebar */}
+          <div className="md:w-1/4 animate-fade-in">
+            <div className="solace-card h-full flex flex-col">
+              <h3 className="text-lg font-semibold mb-4">Take a Moment to Breathe</h3>
+              <div className="flex-1 flex items-center justify-center">
+                <BreathingBubble />
+              </div>
+              <p className="text-sm text-foreground/70 text-center mt-4">
+                Breathe with the animation to help center yourself before or during our conversation.
+              </p>
             </div>
           </div>
           
-          {/* Main Conversation Area */}
-          <div className="space-y-6">
+          {/* Main Conversation Area - Enhanced for focus */}
+          <div className="md:w-3/4 flex-1 animate-fade-in">
             <ConversationInterface />
           </div>
         </div>
       </main>
       
       {/* Footer */}
-      <footer className="py-4 px-6 text-center text-foreground/60 text-sm border-t border-solace-lavender/20 dark:border-solace-dark-lavender/20 mt-8">
+      <footer className="py-4 px-6 text-center text-foreground/60 text-sm border-t border-solace-lavender/20 dark:border-solace-dark-lavender/20">
         <p>Solace — A safe space for emotional well-being.</p>
       </footer>
     </div>

@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -235,9 +234,9 @@ const ConversationInterface: React.FC = () => {
   };
   
   return (
-    <div className="solace-card h-[500px] flex flex-col">
+    <div className="solace-card h-full flex flex-col">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">Conversation</h2>
+        <h2 className="text-2xl font-semibold">Supportive Conversation</h2>
         <Button 
           variant="outline" 
           size="icon" 
@@ -248,18 +247,18 @@ const ConversationInterface: React.FC = () => {
         </Button>
       </div>
       
-      <div className="flex-1 overflow-y-auto mb-4 space-y-4 pr-2 h-[360px]">
+      <div className="flex-1 overflow-y-auto mb-6 space-y-4 pr-2 min-h-[400px]">
         {messages.map((message) => (
           <div
             key={message.id}
             className={cn(
-              "flex max-w-[80%] rounded-2xl px-4 py-3 animate-fade-up",
+              "flex max-w-[85%] rounded-2xl px-5 py-3 animate-fade-up",
               message.sender === 'user'
-                ? "ml-auto bg-solace-lavender text-foreground"
-                : "bg-white border border-gray-100 shadow-sm"
+                ? "ml-auto bg-solace-lavender dark:bg-solace-dark-lavender/80 text-foreground"
+                : "bg-white/80 dark:bg-solace-dark-blue/30 border border-gray-100 dark:border-gray-700 shadow-sm"
             )}
           >
-            <p className="text-sm">{message.text}</p>
+            <p className="text-base leading-relaxed">{message.text}</p>
           </div>
         ))}
         <div ref={endOfMessagesRef} />

@@ -122,7 +122,7 @@ export default {
 				'fade-up': 'fade-up 0.5s ease-out'
 			},
 			fontFamily: {
-				'quicksand': ['Quicksand', 'sans-serif']
+				'alegreya': ['Alegreya', 'serif']
 			}
 		}
 	},

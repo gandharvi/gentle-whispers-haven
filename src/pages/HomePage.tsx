@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Heart, MessageCircle, PencilLine, Sparkles, Gamepad, Activity, CalendarCheck } from 'lucide-react';
+import { Heart, MessageCircle, PencilLine, Sparkles, Activity, CalendarCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import DailyAffirmation from '@/components/DailyAffirmation';
@@ -35,26 +35,38 @@ const HomePage = () => {
         </div>
         
         <div className="max-w-4xl mx-auto">
-          {/* Featured Section - Primary Tools */}
-          <div className="mb-12">
-            <h2 className="text-2xl font-semibold mb-6 text-center">Featured Wellness Tools</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Conversation Feature */}
-              <div className="solace-card flex flex-col items-center text-center p-6">
-                <div className="mb-4 bg-solace-lavender/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
-                  <MessageCircle className="h-8 w-8 text-solace-lavender dark:text-solace-dark-lavender" />
+          {/* Main Feature - Conversation */}
+          <div className="mb-16">
+            <div className="solace-card p-8 flex flex-col md:flex-row items-center gap-8">
+              <div className="md:w-1/2 text-center md:text-left">
+                <div className="mb-6 bg-solace-lavender/10 dark:bg-solace-dark-lavender/10 p-6 rounded-full inline-flex">
+                  <MessageCircle className="h-12 w-12 text-solace-lavender dark:text-solace-dark-lavender" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Supportive Conversation</h3>
-                <p className="text-foreground/70 mb-4">
+                <h2 className="text-3xl font-bold mb-4">Start a Supportive Conversation</h2>
+                <p className="text-foreground/70 text-lg mb-6">
                   Speak or type freely with a compassionate AI companion who listens without judgment.
+                  Our conversation interface provides a safe space for your thoughts and feelings.
                 </p>
-                <Link to="/conversation" className="mt-auto">
-                  <Button className="w-full">
-                    Start a Conversation
+                <Link to="/conversation">
+                  <Button size="lg" className="w-full md:w-auto">
+                    Begin Your Journey
                   </Button>
                 </Link>
               </div>
-              
+              <div className="md:w-1/2">
+                <img 
+                  src="https://images.unsplash.com/photo-1516585427167-9f4af9627e6c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80" 
+                  alt="Peaceful scene"
+                  className="rounded-2xl shadow-lg w-full h-64 object-cover"
+                />
+              </div>
+            </div>
+          </div>
+          
+          {/* Featured Section - Primary Tools */}
+          <div className="mb-12">
+            <h2 className="text-2xl font-semibold mb-6 text-center">Additional Wellness Tools</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Mood Rating Feature */}
               <div className="solace-card flex flex-col items-center text-center p-6">
                 <div className="mb-4 bg-solace-lavender/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
@@ -90,7 +102,7 @@ const HomePage = () => {
           </div>
           
           {/* Secondary Features */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
             {/* Drawing Feature */}
             <div className="solace-card flex flex-col items-center text-center p-6">
               <div className="mb-4 bg-solace-lavender/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
@@ -119,22 +131,6 @@ const HomePage = () => {
               <Link to="/grounding" className="mt-auto">
                 <Button variant="outline" className="w-full">
                   Try Exercises
-                </Button>
-              </Link>
-            </div>
-            
-            {/* Memory Game Feature */}
-            <div className="solace-card flex flex-col items-center text-center p-6">
-              <div className="mb-4 bg-solace-lavender/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
-                <Gamepad className="h-8 w-8 text-solace-lavender dark:text-solace-dark-lavender" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Relaxing Game</h3>
-              <p className="text-foreground/70 mb-4">
-                Calm your mind with a simple memory matching game using peaceful symbols.
-              </p>
-              <Link to="/index#games" className="mt-auto">
-                <Button variant="outline" className="w-full">
-                  Play Game
                 </Button>
               </Link>
             </div>
