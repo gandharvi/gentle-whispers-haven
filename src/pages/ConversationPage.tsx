@@ -1,13 +1,16 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Heart, ArrowLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import ConversationInterface from '@/components/ConversationInterface';
-import BreathingBubble from '@/components/BreathingBubble';
+import { Link, useLocation } from 'react-router-dom';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import ConversationInterface from '@/components/ConversationInterface';
 
 const ConversationPage = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const feeling = queryParams.get('feeling');
+
   return (
     <div className="min-h-screen flex flex-col transition-colors duration-300">
       {/* Header */}
@@ -32,39 +35,12 @@ const ConversationPage = () => {
         </div>
       </header>
       
-      {/* Main Content - Full screen */}
-      <main className="flex-1 flex flex-col">
-        <div className="text-center py-6">
-          <h2 className="text-2xl md:text-3xl font-medium text-foreground/80">
-            "You're not alone. I'm here, and we'll take it one gentle breath at a time."
-          </h2>
-        </div>
-        
-        <div className="flex-1 flex flex-col md:flex-row gap-4 px-4 md:px-8 pb-6">
-          {/* Breathing Exercise - Sidebar */}
-          <div className="md:w-1/4 animate-fade-in">
-            <div className="solace-card h-full flex flex-col">
-              <h3 className="text-xl font-semibold mb-4">Take a Moment to Breathe</h3>
-              <div className="flex-1 flex items-center justify-center">
-                <BreathingBubble />
-              </div>
-              <p className="text-base text-foreground/70 text-center mt-4">
-                Breathe with the animation to help center yourself before or during our conversation.
-              </p>
-            </div>
-          </div>
-          
-          {/* Main Conversation Area - Enhanced for focus */}
-          <div className="md:w-3/4 flex-1 animate-fade-in">
-            <ConversationInterface />
-          </div>
+      {/* Main Content */}
+      <main className="flex-1 flex flex-col p-2 sm:p-6">
+        <div className="flex-1 flex flex-col">
+          <ConversationInterface initialFeeling={feeling} />
         </div>
       </main>
-      
-      {/* Footer */}
-      <footer className="py-4 px-6 text-center text-foreground/60 text-base border-t border-solace-lavender/20 dark:border-solace-dark-lavender/20">
-        <p>Solace — A safe space for emotional well-being.</p>
-      </footer>
     </div>
   );
 };

@@ -12,6 +12,20 @@ interface LeafPosition {
   speed: number;
 }
 
+// Motivational messages that will appear during gameplay
+const motivationalMessages = [
+  "You're doing great, keep going!",
+  "Every leaf caught is a small victory!",
+  "Breathe in... breathe out... you've got this!",
+  "Stay focused and present in the moment.",
+  "One leaf at a time, just like life's challenges.",
+  "Finding peace in the simple things.",
+  "You are capable of amazing things!",
+  "Take a deep breath with each catch.",
+  "Mindfulness in motion.",
+  "Growth happens one small step at a time."
+];
+
 const LeafCatcherGame: React.FC = () => {
   const [gameActive, setGameActive] = useState(false);
   const [score, setScore] = useState(0);
@@ -21,9 +35,11 @@ const LeafCatcherGame: React.FC = () => {
   const [gameHeight, setGameHeight] = useState(0);
   const [level, setLevel] = useState(1);
   const [timeLeft, setTimeLeft] = useState(60);
+  const [motivationalMessage, setMotivationalMessage] = useState("");
   
   const gameAreaRef = useRef<HTMLDivElement>(null);
   const animationFrameRef = useRef<number>(0);
+  const messageTimerRef = useRef<number | null>(null);
   const { toast } = useToast();
 
   // Initialize game dimensions
@@ -45,6 +61,7 @@ const LeafCatcherGame: React.FC = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationFrameRef.current);
+      if (messageTimerRef.current) clearTimeout(messageTimerRef.current);
     };
   }, []);
 
@@ -65,6 +82,39 @@ const LeafCatcherGame: React.FC = () => {
     
     return () => clearInterval(timer);
   }, [gameActive]);
+
+  // Motivational message display
+  useEffect(() => {
+    if (!gameActive) {
+      setMotivationalMessage("");
+      return;
+    }
+    
+    // Show first message
+    showRandomMotivationalMessage();
+    
+    // Set up interval for messages
+    const messageInterval = setInterval(() => {
+      showRandomMotivationalMessage();
+    }, 10000); // Show a new message every 10 seconds
+    
+    return () => clearInterval(messageInterval);
+  }, [gameActive]);
+
+  // Show a random motivational message with a fade effect
+  const showRandomMotivationalMessage = () => {
+    const randomMessage = motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
+    setMotivationalMessage(randomMessage);
+    
+    // Clear the message after 5 seconds
+    if (messageTimerRef.current) {
+      clearTimeout(messageTimerRef.current);
+    }
+    
+    messageTimerRef.current = window.setTimeout(() => {
+      setMotivationalMessage("");
+    }, 5000);
+  };
 
   // Leaf creation
   useEffect(() => {
@@ -104,14 +154,22 @@ const LeafCatcherGame: React.FC = () => {
             if (leaf.y > gameHeight - 60 && 
                 leaf.y < gameHeight - 20 && 
                 Math.abs(leaf.x - basketPosition * gameWidth / 100) < 50) {
-              setScore(prev => prev + 1);
-              if (score > 0 && score % 10 === 0) {
-                setLevel(prev => Math.min(prev + 1, 5));
-                toast({
-                  title: "Level Up!",
-                  description: `You've reached level ${level + 1}!`,
-                });
-              }
+              setScore(prev => {
+                const newScore = prev + 1;
+                // Show special messages at milestone scores
+                if (newScore % 5 === 0) {
+                  showRandomMotivationalMessage();
+                }
+                
+                if (newScore > 0 && newScore % 10 === 0) {
+                  setLevel(prev => Math.min(prev + 1, 5));
+                  toast({
+                    title: "Level Up!",
+                    description: `You've reached level ${level + 1}!`,
+                  });
+                }
+                return newScore;
+              });
               return false;
             }
             
@@ -165,16 +223,25 @@ const LeafCatcherGame: React.FC = () => {
   return (
     <div className="w-full max-w-2xl mx-auto">
       <div className="flex justify-between items-center mb-4">
-        <div className="text-lg">
+        <div className="text-lg font-semibold">
           <span className="font-bold">Score:</span> {score}
         </div>
-        <div className="text-lg">
+        <div className="text-lg font-semibold">
           <span className="font-bold">Level:</span> {level}
         </div>
-        <div className="text-lg">
+        <div className="text-lg font-semibold">
           <span className="font-bold">Time:</span> {timeLeft}s
         </div>
       </div>
+      
+      {/* Motivational message */}
+      {motivationalMessage && (
+        <div className="text-center mb-4 animate-fade-in">
+          <p className="text-lg font-medium text-solace-dark-lavender dark:text-solace-lavender italic">
+            "{motivationalMessage}"
+          </p>
+        </div>
+      )}
       
       <div 
         ref={gameAreaRef}
@@ -196,15 +263,15 @@ const LeafCatcherGame: React.FC = () => {
                   transform: `rotate(${leaf.rotation}deg)`
                 }}
               >
-                <Leaf size={24} />
+                <Leaf size={28} />
               </div>
             ))}
             
             {/* Basket/Catcher */}
             <div 
-              className="absolute bottom-0 w-20 h-10 flex items-center justify-center"
+              className="absolute bottom-0 w-24 h-12 flex items-center justify-center"
               style={{
-                left: `calc(${basketPosition}% - 40px)`
+                left: `calc(${basketPosition}% - 48px)`
               }}
             >
               <div className="w-full h-full bg-solace-lavender dark:bg-solace-dark-lavender rounded-t-full"></div>
@@ -212,9 +279,9 @@ const LeafCatcherGame: React.FC = () => {
           </>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center flex-col gap-4">
-            <h3 className="text-2xl font-bold">Leaf Catcher</h3>
-            <p className="text-lg text-center px-8">Catch falling leaves by moving your basket.<br/>Simple, calming, and relaxing.</p>
-            <Button onClick={startGame} size="lg" className="mt-4">
+            <h3 className="text-3xl font-bold">Leaf Catcher</h3>
+            <p className="text-xl text-center px-8">Catch falling leaves by moving your basket.<br/>A mindful game for relaxation and focus.</p>
+            <Button onClick={startGame} size="lg" className="mt-4 text-lg">
               Start Game
             </Button>
           </div>
@@ -223,9 +290,9 @@ const LeafCatcherGame: React.FC = () => {
       
       <div className="mt-6 text-center">
         {gameActive ? (
-          <Button onClick={endGame} variant="outline">End Game</Button>
+          <Button onClick={endGame} variant="outline" className="text-lg">End Game</Button>
         ) : score > 0 ? (
-          <Button onClick={startGame}>Play Again</Button>
+          <Button onClick={startGame} className="text-lg">Play Again</Button>
         ) : null}
       </div>
     </div>

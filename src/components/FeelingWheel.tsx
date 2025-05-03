@@ -1,43 +1,47 @@
 
 import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { ArrowRight } from 'lucide-react';
+import { useToast } from '@/components/ui/use-toast';
 
-// Define the emotion categories and their subcategories
+// Define the emotion categories and their subcategories with more faint colors
 const emotions = [
   {
     name: 'Joy',
-    color: 'bg-yellow-400',
+    color: 'bg-yellow-100',
     textColor: 'text-gray-800',
     subcategories: ['Happy', 'Playful', 'Content', 'Interested', 'Proud', 'Accepted', 'Powerful', 'Peaceful', 'Trusting']
   },
   {
     name: 'Sadness',
-    color: 'bg-blue-500',
-    textColor: 'text-white',
+    color: 'bg-blue-100',
+    textColor: 'text-gray-800',
     subcategories: ['Lonely', 'Vulnerable', 'Despair', 'Guilty', 'Depressed', 'Hurt', 'Disappointed', 'Disheartened', 'Miserable']
   },
   {
     name: 'Fear',
-    color: 'bg-purple-600',
-    textColor: 'text-white',
+    color: 'bg-purple-100',
+    textColor: 'text-gray-800',
     subcategories: ['Scared', 'Anxious', 'Insecure', 'Weak', 'Rejected', 'Threatened', 'Nervous', 'Worried', 'Inadequate']
   },
   {
     name: 'Disgust',
-    color: 'bg-green-600',
-    textColor: 'text-white',
+    color: 'bg-green-100',
+    textColor: 'text-gray-800',
     subcategories: ['Disapproving', 'Disappointed', 'Awful', 'Repelled', 'Revolted', 'Hesitant', 'Judgmental', 'Loathing', 'Aversion']
   },
   {
     name: 'Anger',
-    color: 'bg-red-600',
-    textColor: 'text-white',
+    color: 'bg-red-100',
+    textColor: 'text-gray-800',
     subcategories: ['Critical', 'Distant', 'Frustrated', 'Aggressive', 'Mad', 'Jealous', 'Hateful', 'Resentful', 'Irritable']
   },
   {
     name: 'Surprise',
-    color: 'bg-pink-500',
-    textColor: 'text-white',
+    color: 'bg-pink-100',
+    textColor: 'text-gray-800',
     subcategories: ['Startled', 'Confused', 'Amazed', 'Excited', 'Stunned', 'Astonished', 'Shocked', 'Dismayed', 'Perplexed']
   }
 ];
@@ -45,6 +49,8 @@ const emotions = [
 const FeelingWheel: React.FC = () => {
   const [selectedEmotion, setSelectedEmotion] = useState<string | null>(null);
   const [selectedSubEmotion, setSelectedSubEmotion] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
   const handleEmotionClick = (emotion: string) => {
     setSelectedEmotion(emotion);
@@ -59,6 +65,19 @@ const FeelingWheel: React.FC = () => {
     return emotions.find(e => e.name === selectedEmotion);
   };
 
+  const navigateToConversation = () => {
+    const feeling = selectedSubEmotion || selectedEmotion;
+    if (feeling) {
+      toast({
+        title: "Redirecting to conversation",
+        description: `Let's talk about feeling ${feeling}`,
+      });
+      
+      // Pass the selected feeling as a URL parameter
+      navigate(`/conversation?feeling=${encodeURIComponent(feeling)}`);
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto w-full">
       <div className="mb-8">
@@ -71,15 +90,23 @@ const FeelingWheel: React.FC = () => {
               <p className="text-lg">Select a more specific emotion below</p>
             )}
             {selectedSubEmotion && (
-              <button 
-                onClick={() => {
-                  setSelectedEmotion(null);
-                  setSelectedSubEmotion(null);
-                }}
-                className="mt-4 py-2 px-4 bg-solace-lavender dark:bg-solace-dark-lavender text-foreground rounded-full text-base hover:opacity-90 transition-opacity"
-              >
-                Start Over
-              </button>
+              <div className="flex flex-col items-center gap-4 mt-4">
+                <button 
+                  onClick={() => {
+                    setSelectedEmotion(null);
+                    setSelectedSubEmotion(null);
+                  }}
+                  className="py-2 px-4 bg-solace-lavender dark:bg-solace-dark-lavender text-foreground rounded-full text-base hover:opacity-90 transition-opacity"
+                >
+                  Start Over
+                </button>
+                <Button 
+                  onClick={navigateToConversation}
+                  className="flex items-center gap-2 text-base"
+                >
+                  Talk about this feeling <ArrowRight size={16} />
+                </Button>
+              </div>
             )}
           </div>
         ) : (
@@ -98,7 +125,7 @@ const FeelingWheel: React.FC = () => {
               key={emotion.name}
               onClick={() => handleEmotionClick(emotion.name)}
               className={cn(
-                "p-6 rounded-full aspect-square flex items-center justify-center text-xl font-bold transition-transform hover:scale-105",
+                "p-6 rounded-full aspect-square flex items-center justify-center text-xl font-bold transition-transform hover:scale-105 border",
                 emotion.color,
                 emotion.textColor
               )}
@@ -115,10 +142,10 @@ const FeelingWheel: React.FC = () => {
               key={subEmotion}
               onClick={() => handleSubEmotionClick(subEmotion)}
               className={cn(
-                "p-4 rounded-xl flex items-center justify-center text-lg font-medium transition-transform hover:scale-105",
+                "p-4 rounded-xl flex items-center justify-center text-lg font-medium transition-transform hover:scale-105 border",
                 getSelectedEmotionData()?.color,
                 getSelectedEmotionData()?.textColor,
-                selectedSubEmotion === subEmotion ? "ring-4 ring-white/50" : ""
+                selectedSubEmotion === subEmotion ? "ring-4 ring-solace-lavender/50 dark:ring-solace-dark-lavender/50" : ""
               )}
             >
               {subEmotion}

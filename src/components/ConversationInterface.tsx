@@ -46,7 +46,11 @@ declare global {
   }
 }
 
-const ConversationInterface: React.FC = () => {
+interface ConversationInterfaceProps {
+  initialFeeling?: string | null;
+}
+
+const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFeeling }) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -61,6 +65,7 @@ const ConversationInterface: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const initialFeelingProcessed = useRef(false);
   
   // Speech recognition
   const recognitionRef = useRef<SpeechRecognition | null>(null);
@@ -134,6 +139,20 @@ const ConversationInterface: React.FC = () => {
   }, []);
   
   useEffect(() => {
+    // Handle initial feeling if provided and not yet processed
+    if (initialFeeling && !initialFeelingProcessed.current) {
+      const message = `I'm feeling ${initialFeeling} today.`;
+      setInput(message);
+      
+      // Use setTimeout to allow the component to fully render before sending
+      setTimeout(() => {
+        sendMessage(message);
+        initialFeelingProcessed.current = true;
+      }, 1000);
+    }
+  }, [initialFeeling]);
+  
+  useEffect(() => {
     // Scroll to bottom when messages change
     scrollToBottom();
   }, [messages]);
@@ -196,13 +215,14 @@ const ConversationInterface: React.FC = () => {
     }
   };
   
-  const sendMessage = async () => {
-    if (!input.trim() || isLoading) return;
+  const sendMessage = async (overrideText?: string) => {
+    const messageText = overrideText || input;
+    if ((!messageText.trim() || isLoading) && !overrideText) return;
     
     // Add user message
     const userMessage: Message = {
       id: Date.now().toString(),
-      text: input,
+      text: messageText,
       sender: 'user',
       timestamp: new Date()
     };
@@ -211,7 +231,7 @@ const ConversationInterface: React.FC = () => {
     setInput('');
     
     // Get AI response
-    const aiText = await fetchAIResponse(input);
+    const aiText = await fetchAIResponse(messageText);
     
     const aiMessage: Message = {
       id: (Date.now() + 1).toString(),
@@ -236,7 +256,7 @@ const ConversationInterface: React.FC = () => {
   return (
     <div className="solace-card h-full flex flex-col">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-semibold">Supportive Conversation</h2>
+        <h2 className="text-3xl font-semibold">Supportive Conversation</h2>
         <Button 
           variant="outline" 
           size="icon" 
@@ -258,7 +278,7 @@ const ConversationInterface: React.FC = () => {
                 : "bg-white/80 dark:bg-solace-dark-blue/30 border border-gray-100 dark:border-gray-700 shadow-sm"
             )}
           >
-            <p className="text-base leading-relaxed">{message.text}</p>
+            <p className="text-lg leading-relaxed">{message.text}</p>
           </div>
         ))}
         <div ref={endOfMessagesRef} />
@@ -280,13 +300,13 @@ const ConversationInterface: React.FC = () => {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Type your message or click the mic to speak..."
-            className="min-h-[40px] max-h-[120px] resize-none flex-1 overflow-y-auto"
+            className="min-h-[40px] max-h-[120px] resize-none flex-1 overflow-y-auto text-lg"
             rows={1}
           />
           
           <Button 
             size="icon" 
-            onClick={sendMessage} 
+            onClick={() => sendMessage()}
             disabled={!input.trim() || isLoading}
             className={isLoading ? "opacity-70" : ""}
           >
@@ -302,6 +322,10 @@ const ConversationInterface: React.FC = () => {
       </div>
     </div>
   );
+};
+
+ConversationInterface.defaultProps = {
+  initialFeeling: null
 };
 
 export default ConversationInterface;

@@ -35,7 +35,8 @@ const LeafCatcherPage = () => {
       <main className="flex-1 flex flex-col p-6">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold">Leaf Catcher</h2>
-          <p className="text-lg text-foreground/70 mt-2">A simple, calming game to help you focus and relax</p>
+          <p className="text-xl text-foreground/70 mt-2">A mindful game to help you focus and find moments of calm</p>
+          <p className="text-lg text-foreground/60 mt-1">Catch the falling leaves and collect inspiring messages along the way</p>
         </div>
         
         <div className="flex-1 flex justify-center items-center">
