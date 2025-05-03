@@ -14,7 +14,7 @@ import MoodTracker from '@/components/MoodTracker';
 import ConversationInterface from '@/components/ConversationInterface';
 import DailyAffirmation from '@/components/DailyAffirmation';
 import MoodRatingSlider from '@/components/MoodRatingSlider';
-import MemoryGame from '@/components/MemoryGame';
+import LeafCatcherGame from '@/components/LeafCatcherGame';
 
 const Index = () => {
   const [journalEntry, setJournalEntry] = useState('');
@@ -214,7 +214,7 @@ const Index = () => {
               </TabsContent>
               
               <TabsContent value="games" className="pt-4">
-                <MemoryGame />
+                <LeafCatcherGame />
               </TabsContent>
             </Tabs>
           </div>
