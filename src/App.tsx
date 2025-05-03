@@ -10,6 +10,8 @@ import DrawingPage from "./pages/DrawingPage";
 import GroundingPage from "./pages/GroundingPage";
 import NotFound from "./pages/NotFound";
 import Index from "./pages/Index";
+import FeelingWheelPage from "./pages/FeelingWheelPage";
+import LeafCatcherPage from "./pages/LeafCatcherPage";
 import { ThemeProvider } from "./components/ThemeProvider";
 
 const queryClient = new QueryClient();
@@ -27,6 +29,8 @@ const App = () => (
             <Route path="/drawing" element={<DrawingPage />} />
             <Route path="/grounding" element={<GroundingPage />} />
             <Route path="/index" element={<Index />} />
+            <Route path="/feeling-wheel" element={<FeelingWheelPage />} />
+            <Route path="/leaf-catcher" element={<LeafCatcherPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
