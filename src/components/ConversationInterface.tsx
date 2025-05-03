@@ -1,10 +1,14 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Mic, Send, MicOff, Volume2, VolumeX } from 'lucide-react';
+import { Mic, Send, MicOff, Volume2, VolumeX, Sparkles, Wind } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from '@/components/ui/use-toast';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import BreathingBubble from '@/components/BreathingBubble';
+import AffirmationCard from '@/components/AffirmationCard';
 
 interface Message {
   id: string;
@@ -63,6 +67,7 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
   const [isListening, setIsListening] = useState(false);
   const [audioEnabled, setAudioEnabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [activeToolTab, setActiveToolTab] = useState('chat');
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const initialFeelingProcessed = useRef(false);
@@ -267,59 +272,89 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
         </Button>
       </div>
       
-      <div className="flex-1 overflow-y-auto mb-6 space-y-4 pr-2 min-h-[400px]">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={cn(
-              "flex max-w-[85%] rounded-2xl px-5 py-3 animate-fade-up",
-              message.sender === 'user'
-                ? "ml-auto bg-solace-lavender dark:bg-solace-dark-lavender/80 text-foreground"
-                : "bg-white/80 dark:bg-solace-dark-blue/30 border border-gray-100 dark:border-gray-700 shadow-sm"
-            )}
-          >
-            <p className="text-lg leading-relaxed">{message.text}</p>
-          </div>
-        ))}
-        <div ref={endOfMessagesRef} />
-      </div>
-      
-      <div className="border-t pt-4 mt-auto">
-        <div className="flex items-center space-x-2">
-          <Button
-            variant="outline"
-            size="icon"
-            className={cn(isListening && "bg-red-100 text-red-500 animate-pulse")}
-            onClick={toggleListening}
-          >
-            {isListening ? <MicOff size={18} /> : <Mic size={18} />}
-          </Button>
-          
-          <Textarea
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Type your message or click the mic to speak..."
-            className="min-h-[40px] max-h-[120px] resize-none flex-1 overflow-y-auto text-lg"
-            rows={1}
-          />
-          
-          <Button 
-            size="icon" 
-            onClick={() => sendMessage()}
-            disabled={!input.trim() || isLoading}
-            className={isLoading ? "opacity-70" : ""}
-          >
-            <Send size={18} />
-          </Button>
-        </div>
+      <Tabs value={activeToolTab} onValueChange={setActiveToolTab} className="w-full mb-4">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="chat" className="text-lg">Chat</TabsTrigger>
+          <TabsTrigger value="breathing" className="text-lg">Breathing</TabsTrigger>
+          <TabsTrigger value="affirmations" className="text-lg">Affirmations</TabsTrigger>
+        </TabsList>
         
-        {isListening && (
-          <p className="text-xs text-center mt-2 text-red-500">
-            Listening... Speak clearly
-          </p>
-        )}
-      </div>
+        <TabsContent value="chat" className="pt-4">
+          <div className="flex-1 overflow-y-auto mb-6 space-y-4 pr-2 min-h-[400px]">
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className={cn(
+                  "flex max-w-[85%] rounded-2xl px-5 py-3 animate-fade-up",
+                  message.sender === 'user'
+                    ? "ml-auto bg-solace-lavender dark:bg-solace-dark-lavender/80 text-foreground"
+                    : "bg-white/80 dark:bg-solace-dark-blue/30 border border-gray-100 dark:border-gray-700 shadow-sm"
+                )}
+              >
+                <p className="text-xl leading-relaxed">{message.text}</p>
+              </div>
+            ))}
+            <div ref={endOfMessagesRef} />
+          </div>
+          
+          <div className="border-t pt-4 mt-auto">
+            <div className="flex items-center space-x-2">
+              <Button
+                variant="outline"
+                size="icon"
+                className={cn(isListening && "bg-red-100 text-red-500 animate-pulse")}
+                onClick={toggleListening}
+              >
+                {isListening ? <MicOff size={18} /> : <Mic size={18} />}
+              </Button>
+              
+              <Textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Type your message or click the mic to speak..."
+                className="min-h-[40px] max-h-[120px] resize-none flex-1 overflow-y-auto text-xl"
+                rows={1}
+              />
+              
+              <Button 
+                size="icon" 
+                onClick={() => sendMessage()}
+                disabled={!input.trim() || isLoading}
+                className={isLoading ? "opacity-70" : ""}
+              >
+                <Send size={18} />
+              </Button>
+            </div>
+            
+            {isListening && (
+              <p className="text-xs text-center mt-2 text-red-500">
+                Listening... Speak clearly
+              </p>
+            )}
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="breathing" className="pt-4">
+          <div className="flex flex-col items-center justify-center p-4">
+            <h3 className="text-2xl font-semibold mb-4">Breathing Exercise</h3>
+            <p className="text-lg text-center mb-6">
+              Take a moment to breathe deeply and calm your mind.
+            </p>
+            <BreathingBubble />
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="affirmations" className="pt-4">
+          <div className="flex flex-col items-center justify-center p-4">
+            <h3 className="text-2xl font-semibold mb-4">Daily Affirmations</h3>
+            <p className="text-lg text-center mb-6">
+              Positive affirmations to uplift your spirits.
+            </p>
+            <AffirmationCard />
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

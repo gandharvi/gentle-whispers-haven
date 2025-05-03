@@ -122,7 +122,8 @@ export default {
 				'fade-up': 'fade-up 0.5s ease-out'
 			},
 			fontFamily: {
-				'alegreya': ['Alegreya', 'serif']
+				'alegreya': ['Alegreya', 'serif'],
+				'bree': ['Bree Serif', 'serif']
 			}
 		}
 	},

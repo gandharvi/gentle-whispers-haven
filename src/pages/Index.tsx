@@ -1,11 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
-import { BookHeart, Menu, Heart, MessageCircle, PencilLine, Sparkles, Activity, CalendarCheck, Gamepad } from 'lucide-react';
+import { BookHeart, Menu, Heart, MessageCircle, PencilLine, Sparkles, Activity, CalendarCheck, Gamepad, ArrowLeft } from 'lucide-react';
 import BreathingBubble from '@/components/BreathingBubble';
 import DrawingCanvas from '@/components/DrawingCanvas';
 import AffirmationCard from '@/components/AffirmationCard';
@@ -59,11 +59,19 @@ const Index = () => {
     <div className="min-h-screen">
       {/* Header */}
       <header className="py-4 px-6 flex justify-between items-center border-b border-solace-lavender/20 shadow-sm bg-white/80 backdrop-blur-sm dark:bg-solace-dark-purple/80 dark:border-solace-dark-lavender/20">
-        <div className="flex items-center">
-          <Heart className="h-6 w-6 mr-2 text-solace-lavender dark:text-solace-dark-lavender" />
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-            Solace
-          </h1>
+        <div className="flex items-center gap-4">
+          <Link to="/">
+            <Button variant="ghost" size="sm" className="flex items-center gap-1 text-base">
+              <ArrowLeft size={18} />
+              <span>Back to Home</span>
+            </Button>
+          </Link>
+          <div className="flex items-center">
+            <Heart className="h-6 w-6 mr-2 text-solace-lavender dark:text-solace-dark-lavender" />
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+              Solace
+            </h1>
+          </div>
         </div>
         
         {/* Journal Modal Trigger */}
