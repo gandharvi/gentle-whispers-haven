@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -9,6 +8,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import BreathingBubble from '@/components/BreathingBubble';
 import AffirmationCard from '@/components/AffirmationCard';
+import GroundingExercise from '@/components/GroundingExercise';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
@@ -251,11 +251,11 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
     
     // Determine which activity to suggest based on the emotion
     if (['anxious', 'stressed', 'overwhelmed', 'worried', 'panic'].some(e => emotion.includes(e))) {
-      suggestion = "I notice you seem to be feeling quite intense emotions right now. Would you like to try a breathing exercise or the leaf catcher game to help calm your mind?";
+      suggestion = "I notice you seem to be feeling quite intense emotions. Would you like to try a grounding exercise or the leaf catcher game to help calm your mind?";
     } else if (['sad', 'depressed', 'hopeless', 'lonely', 'miserable'].some(e => emotion.includes(e))) {
-      suggestion = "I can see you're going through a difficult emotional time. Would it help to express yourself with the drawing canvas or check the feeling wheel to explore your emotions further?";
+      suggestion = "I can see you're going through a difficult time. Would it help to express yourself with the drawing canvas or check the feeling wheel to explore your emotions?";
     } else {
-      suggestion = "It sounds like you're experiencing some intense feelings. Would you like to try an activity to help process these emotions? You could try the breathing exercise, feeling wheel, drawing canvas, or a calming game.";
+      suggestion = "It sounds like you're experiencing some intense feelings. Would you like to try an activity to help process these emotions? You could try the grounding exercise, feeling wheel, drawing canvas, or a calming game.";
     }
     
     return {
@@ -334,8 +334,8 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
   
   const navigateToActivity = (activity: string) => {
     switch(activity) {
-      case 'breathing':
-        setActiveToolTab('breathing');
+      case 'grounding':
+        setActiveToolTab('grounding');
         break;
       case 'affirmations':
         setActiveToolTab('affirmations');
@@ -365,7 +365,7 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
   };
   
   return (
-    <div className="solace-card h-full flex flex-col bg-solace-peach/80 dark:bg-solace-dark-purple/70 backdrop-blur-sm border border-solace-lavender/30 dark:border-solace-dark-lavender/30 rounded-2xl shadow-lg">
+    <div className="solace-card h-full flex flex-col bg-solace-lavender/20 dark:bg-solace-dark-purple/70 backdrop-blur-sm border border-solace-lavender/30 dark:border-solace-dark-lavender/30 rounded-2xl shadow-lg">
       <div className="flex flex-1 gap-4 overflow-hidden">
         <div className="flex-1 flex flex-col overflow-hidden">
           <Tabs value={activeToolTab} onValueChange={setActiveToolTab} className="w-full flex-1 flex flex-col">
@@ -434,9 +434,9 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
                     variant="outline" 
                     size="sm"
                     className="rounded-full text-xs border-solace-lavender/50 dark:border-solace-dark-lavender/50 bg-white/50 dark:bg-solace-dark-blue/30"
-                    onClick={() => navigateToActivity('breathing')}
+                    onClick={() => navigateToActivity('grounding')}
                   >
-                    Breathing Exercise
+                    Grounding Exercise
                   </Button>
                   <Button 
                     variant="outline" 
@@ -466,14 +466,14 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
               </div>
             </TabsContent>
             
-            <TabsContent value="breathing" className="flex-1 flex flex-col">
+            <TabsContent value="grounding" className="flex-1 flex flex-col">
               <div className="flex flex-col items-center justify-center p-4 h-full">
-                <h3 className="text-2xl mb-4">Breathing Exercise</h3>
+                <h3 className="text-2xl mb-4">Grounding Exercise</h3>
                 <p className="text-lg text-center mb-6">
-                  Take a moment to breathe deeply and calm your mind.
+                  Use this exercise to center yourself when feeling overwhelmed.
                 </p>
-                <div className="flex-1 flex items-center justify-center">
-                  <BreathingBubble />
+                <div className="flex-1 flex items-center justify-center w-full">
+                  <GroundingExercise />
                 </div>
                 <Button 
                   onClick={() => setActiveToolTab('chat')} 
@@ -520,7 +520,7 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
           </div>
           
           <div className="solace-card border border-solace-lavender/30 dark:border-solace-dark-lavender/30 h-1/2 overflow-hidden bg-white/60 dark:from-solace-dark-blue/60 dark:to-solace-dark-blue/30 rounded-xl">
-            <BreathingBubble />
+            <GroundingExercise />
           </div>
           
           <div className="solace-card border border-solace-lavender/30 dark:border-solace-dark-lavender/30 h-1/2 overflow-hidden bg-white/60 dark:from-solace-dark-purple/60 dark:to-solace-dark-lavender/30 rounded-xl">

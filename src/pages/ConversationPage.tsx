@@ -36,8 +36,13 @@ const ConversationPage = () => {
       </header>
       
       {/* Main Content with soft pastel background */}
-      <main className="flex-1 flex flex-col p-2 sm:p-6 bg-solace-cream dark:bg-solace-dark-purple/20">
+      <main className="flex-1 flex flex-col p-2 sm:p-6 bg-solace-lavender/20 dark:bg-solace-dark-purple/20">
         <div className="flex-1 flex flex-col max-w-6xl mx-auto w-full">
+          <div className="bg-white/80 dark:bg-solace-dark-blue/30 mb-4 p-4 rounded-xl text-center border border-solace-lavender/30 dark:border-solace-dark-lavender/30 shadow-sm">
+            <p className="text-foreground/80 dark:text-foreground/70 text-sm">
+              Share your feelings freely in a safe space. I'm here to listen and support you with care and understanding.
+            </p>
+          </div>
           <ConversationInterface initialFeeling={feeling} />
         </div>
       </main>
