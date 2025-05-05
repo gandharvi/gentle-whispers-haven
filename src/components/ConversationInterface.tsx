@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Mic, Send, MicOff, Volume2, VolumeX, ArrowLeft, Gamepad, Paintbrush, CircleDashed } from 'lucide-react';
+import { Mic, Send, MicOff, Volume2, VolumeX, ArrowLeft, Gamepad, PaintBrush, CircleDashed } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from '@/components/ui/use-toast';
