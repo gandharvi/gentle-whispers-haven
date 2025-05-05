@@ -35,8 +35,8 @@ const ConversationPage = () => {
         </div>
       </header>
       
-      {/* Main Content with subtle background */}
-      <main className="flex-1 flex flex-col p-2 sm:p-6 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-solace-dark-purple/20 dark:to-solace-dark-blue/30">
+      {/* Main Content with soft pastel background */}
+      <main className="flex-1 flex flex-col p-2 sm:p-6 bg-solace-cream dark:bg-solace-dark-purple/20">
         <div className="flex-1 flex flex-col max-w-6xl mx-auto w-full">
           <ConversationInterface initialFeeling={feeling} />
         </div>

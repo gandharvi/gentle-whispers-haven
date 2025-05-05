@@ -79,6 +79,8 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
   const [isLoading, setIsLoading] = useState(false);
   const [activeToolTab, setActiveToolTab] = useState('chat');
   const [returnFromActivity, setReturnFromActivity] = useState<string | null>(null);
+  // Track user message count to only suggest activities after several messages
+  const [userMessageCount, setUserMessageCount] = useState(0);
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const initialFeelingProcessed = useRef(false);
@@ -302,8 +304,12 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     
-    // Check for intense emotions
-    if (detectIntenseEmotion(messageText)) {
+    // Increment user message count
+    const newUserMessageCount = userMessageCount + 1;
+    setUserMessageCount(newUserMessageCount);
+    
+    // Only suggest activities after several messages and if intense emotions are detected
+    if (newUserMessageCount >= 4 && detectIntenseEmotion(messageText)) {
       const suggestionMessage = suggestActivity(messageText);
       setMessages(prev => [...prev, suggestionMessage]);
       speakMessage(suggestionMessage.text);
@@ -359,7 +365,7 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
   };
   
   return (
-    <div className="solace-card h-full flex flex-col bg-white/70 dark:bg-solace-dark-purple/70 backdrop-blur-sm border border-solace-lavender/30 dark:border-solace-dark-lavender/30 rounded-2xl shadow-lg">
+    <div className="solace-card h-full flex flex-col bg-solace-peach/80 dark:bg-solace-dark-purple/70 backdrop-blur-sm border border-solace-lavender/30 dark:border-solace-dark-lavender/30 rounded-2xl shadow-lg">
       <div className="flex flex-1 gap-4 overflow-hidden">
         <div className="flex-1 flex flex-col overflow-hidden">
           <Tabs value={activeToolTab} onValueChange={setActiveToolTab} className="w-full flex-1 flex flex-col">
@@ -371,8 +377,8 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
                     className={cn(
                       "flex max-w-[85%] rounded-2xl px-5 py-3 animate-fade-up",
                       message.sender === 'user'
-                        ? "ml-auto bg-gradient-to-r from-solace-lavender/90 to-solace-lavender/70 dark:from-solace-dark-lavender/90 dark:to-solace-dark-lavender/70 text-foreground shadow-sm"
-                        : "bg-gradient-to-r from-white/90 to-white/70 dark:from-solace-dark-blue/40 dark:to-solace-dark-blue/20 border border-gray-100 dark:border-gray-700 shadow-sm"
+                        ? "ml-auto bg-solace-lavender/90 dark:bg-solace-dark-lavender/90 text-foreground shadow-sm"
+                        : "bg-white/90 dark:bg-solace-dark-blue/40 border border-gray-100 dark:border-gray-700 shadow-sm"
                     )}
                   >
                     <p className="text-xl leading-relaxed">{message.text}</p>
@@ -513,11 +519,11 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
             </Button>
           </div>
           
-          <div className="solace-card border border-solace-lavender/30 dark:border-solace-dark-lavender/30 h-1/2 overflow-hidden bg-gradient-to-br from-white/60 to-solace-blue/30 dark:from-solace-dark-blue/60 dark:to-solace-dark-blue/30 rounded-xl">
+          <div className="solace-card border border-solace-lavender/30 dark:border-solace-dark-lavender/30 h-1/2 overflow-hidden bg-white/60 dark:from-solace-dark-blue/60 dark:to-solace-dark-blue/30 rounded-xl">
             <BreathingBubble />
           </div>
           
-          <div className="solace-card border border-solace-lavender/30 dark:border-solace-dark-lavender/30 h-1/2 overflow-hidden bg-gradient-to-br from-white/60 to-solace-peach/30 dark:from-solace-dark-purple/60 dark:to-solace-dark-lavender/30 rounded-xl">
+          <div className="solace-card border border-solace-lavender/30 dark:border-solace-dark-lavender/30 h-1/2 overflow-hidden bg-white/60 dark:from-solace-dark-purple/60 dark:to-solace-dark-lavender/30 rounded-xl">
             <AffirmationCard />
           </div>
         </div>
