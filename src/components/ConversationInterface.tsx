@@ -1,7 +1,8 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Mic, Send, MicOff, Volume2, VolumeX, ArrowLeft, Gamepad, PaintBrush, CircleDashed } from 'lucide-react';
+import { Mic, Send, MicOff, Volume2, VolumeX, ArrowLeft, Gamepad, Paintbrush, CircleDashed } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from '@/components/ui/use-toast';
@@ -194,6 +195,15 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
     }
   }, [returnFromActivity]);
   
+  // Check if we're returning from an activity
+  useEffect(() => {
+    const returnActivity = localStorage.getItem('returnToChat');
+    if (returnActivity) {
+      setReturnFromActivity(returnActivity);
+      localStorage.removeItem('returnToChat');
+    }
+  }, []);
+  
   const scrollToBottom = () => {
     endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -341,15 +351,6 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
     }
   };
   
-  // Check if we're returning from an activity
-  useEffect(() => {
-    const returnActivity = localStorage.getItem('returnToChat');
-    if (returnActivity) {
-      setReturnFromActivity(returnActivity);
-      localStorage.removeItem('returnToChat');
-    }
-  }, []);
-  
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -358,52 +359,37 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
   };
   
   return (
-    <div className="solace-card h-full flex flex-col">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-3xl font-normal">Supportive Conversation</h2>
-        <Button 
-          variant="outline" 
-          size="icon" 
-          onClick={toggleAudio}
-          className={!audioEnabled ? "bg-red-50 text-red-500" : ""}
-        >
-          {audioEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
-        </Button>
-      </div>
-      
-      <div className="flex gap-4">
-        <div className="flex-1">
-          <Tabs value={activeToolTab} onValueChange={setActiveToolTab} className="w-full mb-4">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="chat" className="text-lg font-normal">Chat</TabsTrigger>
-              <TabsTrigger value="breathing" className="text-lg font-normal">Breathing</TabsTrigger>
-              <TabsTrigger value="affirmations" className="text-lg font-normal">Affirmations</TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="chat" className="pt-4">
-              <div className="flex-1 overflow-y-auto mb-6 space-y-4 pr-2 min-h-[400px]">
+    <div className="solace-card h-full flex flex-col bg-white/70 dark:bg-solace-dark-purple/70 backdrop-blur-sm border border-solace-lavender/30 dark:border-solace-dark-lavender/30 rounded-2xl shadow-lg">
+      <div className="flex flex-1 gap-4 overflow-hidden">
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <Tabs value={activeToolTab} onValueChange={setActiveToolTab} className="w-full flex-1 flex flex-col">
+            <TabsContent value="chat" className="pt-4 flex-1 flex flex-col">
+              <div className="flex-1 overflow-y-auto mb-6 space-y-4 pr-2 min-h-[300px] p-4">
                 {messages.map((message) => (
                   <div
                     key={message.id}
                     className={cn(
                       "flex max-w-[85%] rounded-2xl px-5 py-3 animate-fade-up",
                       message.sender === 'user'
-                        ? "ml-auto bg-solace-lavender dark:bg-solace-dark-lavender/80 text-foreground"
-                        : "bg-white/80 dark:bg-solace-dark-blue/30 border border-gray-100 dark:border-gray-700 shadow-sm"
+                        ? "ml-auto bg-gradient-to-r from-solace-lavender/90 to-solace-lavender/70 dark:from-solace-dark-lavender/90 dark:to-solace-dark-lavender/70 text-foreground shadow-sm"
+                        : "bg-gradient-to-r from-white/90 to-white/70 dark:from-solace-dark-blue/40 dark:to-solace-dark-blue/20 border border-gray-100 dark:border-gray-700 shadow-sm"
                     )}
                   >
-                    <p className="text-xl leading-relaxed font-normal">{message.text}</p>
+                    <p className="text-xl leading-relaxed">{message.text}</p>
                   </div>
                 ))}
                 <div ref={endOfMessagesRef} />
               </div>
               
-              <div className="border-t pt-4 mt-auto">
+              <div className="border-t border-solace-lavender/20 dark:border-solace-dark-lavender/20 pt-4 mt-auto px-4 pb-4">
                 <div className="flex items-center space-x-2">
                   <Button
                     variant="outline"
                     size="icon"
-                    className={cn(isListening && "bg-red-100 text-red-500 animate-pulse")}
+                    className={cn(
+                      "rounded-full border-solace-lavender/50 dark:border-solace-dark-lavender/50", 
+                      isListening && "bg-red-100 text-red-500 animate-pulse"
+                    )}
                     onClick={toggleListening}
                   >
                     {isListening ? <MicOff size={18} /> : <Mic size={18} />}
@@ -414,7 +400,7 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder="Type your message or click the mic to speak..."
-                    className="min-h-[40px] max-h-[120px] resize-none flex-1 overflow-y-auto text-xl"
+                    className="min-h-[50px] max-h-[120px] resize-none flex-1 overflow-y-auto text-xl rounded-xl border-solace-lavender/50 dark:border-solace-dark-lavender/50 focus:border-solace-lavender focus:ring-solace-lavender/30"
                     rows={1}
                   />
                   
@@ -422,7 +408,10 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
                     size="icon" 
                     onClick={() => sendMessage()}
                     disabled={!input.trim() || isLoading}
-                    className={isLoading ? "opacity-70" : ""}
+                    className={cn(
+                      "rounded-full bg-solace-lavender hover:bg-solace-lavender/90 dark:bg-solace-dark-lavender dark:hover:bg-solace-dark-lavender/90",
+                      isLoading ? "opacity-70" : ""
+                    )}
                   >
                     <Send size={18} />
                   </Button>
@@ -433,19 +422,56 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
                     Listening... Speak clearly
                   </p>
                 )}
+                
+                <div className="flex flex-wrap gap-2 mt-4 justify-center">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="rounded-full text-xs border-solace-lavender/50 dark:border-solace-dark-lavender/50 bg-white/50 dark:bg-solace-dark-blue/30"
+                    onClick={() => navigateToActivity('breathing')}
+                  >
+                    Breathing Exercise
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="rounded-full text-xs border-solace-lavender/50 dark:border-solace-dark-lavender/50 bg-white/50 dark:bg-solace-dark-blue/30"
+                    onClick={() => navigateToActivity('feeling-wheel')}
+                  >
+                    Feeling Wheel
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="rounded-full text-xs border-solace-lavender/50 dark:border-solace-dark-lavender/50 bg-white/50 dark:bg-solace-dark-blue/30"
+                    onClick={() => navigateToActivity('drawing')}
+                  >
+                    Drawing Canvas
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="rounded-full text-xs border-solace-lavender/50 dark:border-solace-dark-lavender/50 bg-white/50 dark:bg-solace-dark-blue/30"
+                    onClick={() => navigateToActivity('leaf-catcher')}
+                  >
+                    Leaf Catcher
+                  </Button>
+                </div>
               </div>
             </TabsContent>
             
-            <TabsContent value="breathing" className="pt-4">
-              <div className="flex flex-col items-center justify-center p-4">
-                <h3 className="text-2xl font-normal mb-4">Breathing Exercise</h3>
+            <TabsContent value="breathing" className="flex-1 flex flex-col">
+              <div className="flex flex-col items-center justify-center p-4 h-full">
+                <h3 className="text-2xl mb-4">Breathing Exercise</h3>
                 <p className="text-lg text-center mb-6">
                   Take a moment to breathe deeply and calm your mind.
                 </p>
-                <BreathingBubble />
+                <div className="flex-1 flex items-center justify-center">
+                  <BreathingBubble />
+                </div>
                 <Button 
                   onClick={() => setActiveToolTab('chat')} 
-                  className="mt-8 flex items-center gap-2"
+                  className="mt-8 flex items-center gap-2 bg-solace-lavender hover:bg-solace-lavender/90 dark:bg-solace-dark-lavender dark:hover:bg-solace-dark-lavender/90"
                 >
                   <ArrowLeft size={16} />
                   Return to conversation
@@ -453,16 +479,18 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
               </div>
             </TabsContent>
             
-            <TabsContent value="affirmations" className="pt-4">
-              <div className="flex flex-col items-center justify-center p-4">
-                <h3 className="text-2xl font-normal mb-4">Daily Affirmations</h3>
+            <TabsContent value="affirmations" className="flex-1 flex flex-col">
+              <div className="flex flex-col items-center justify-center p-4 h-full">
+                <h3 className="text-2xl mb-4">Daily Affirmations</h3>
                 <p className="text-lg text-center mb-6">
                   Positive affirmations to uplift your spirits.
                 </p>
-                <AffirmationCard />
+                <div className="flex-1 flex items-center justify-center">
+                  <AffirmationCard />
+                </div>
                 <Button 
                   onClick={() => setActiveToolTab('chat')} 
-                  className="mt-8 flex items-center gap-2"
+                  className="mt-8 flex items-center gap-2 bg-solace-lavender hover:bg-solace-lavender/90 dark:bg-solace-dark-lavender dark:hover:bg-solace-dark-lavender/90"
                 >
                   <ArrowLeft size={16} />
                   Return to conversation
@@ -472,12 +500,24 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
           </Tabs>
         </div>
         
-        <div className="w-1/3 space-y-4">
-          <div className="solace-card border border-solace-lavender/30 dark:border-solace-dark-lavender/30 h-1/2 overflow-hidden">
+        <div className="w-1/3 space-y-4 p-4 hidden md:flex flex-col">
+          <div className="flex justify-between items-center mb-2">
+            <h2 className="text-xl">Support Tools</h2>
+            <Button 
+              variant="outline" 
+              size="icon" 
+              onClick={toggleAudio}
+              className={cn("rounded-full", !audioEnabled ? "bg-red-50 text-red-500" : "")}
+            >
+              {audioEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
+            </Button>
+          </div>
+          
+          <div className="solace-card border border-solace-lavender/30 dark:border-solace-dark-lavender/30 h-1/2 overflow-hidden bg-gradient-to-br from-white/60 to-solace-blue/30 dark:from-solace-dark-blue/60 dark:to-solace-dark-blue/30 rounded-xl">
             <BreathingBubble />
           </div>
           
-          <div className="solace-card border border-solace-lavender/30 dark:border-solace-dark-lavender/30 h-1/2 overflow-hidden">
+          <div className="solace-card border border-solace-lavender/30 dark:border-solace-dark-lavender/30 h-1/2 overflow-hidden bg-gradient-to-br from-white/60 to-solace-peach/30 dark:from-solace-dark-purple/60 dark:to-solace-dark-lavender/30 rounded-xl">
             <AffirmationCard />
           </div>
         </div>

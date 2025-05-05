@@ -14,11 +14,11 @@ const ConversationPage = () => {
   return (
     <div className="min-h-screen flex flex-col transition-colors duration-300">
       {/* Header */}
-      <header className="py-4 px-6 flex justify-between items-center border-b border-solace-lavender/20 dark:border-solace-dark-lavender/20 shadow-sm bg-white/80 dark:bg-solace-dark-purple/80 backdrop-blur-sm">
+      <header className="py-4 px-6 flex justify-between items-center border-b border-solace-lavender/30 dark:border-solace-dark-lavender/30 shadow-sm bg-white/90 dark:bg-solace-dark-purple/90 backdrop-blur-sm sticky top-0 z-10">
         <div className="flex items-center">
           <Link to="/" className="flex items-center">
             <Heart className="h-7 w-7 mr-2 text-solace-lavender dark:text-solace-dark-lavender" />
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-normal bg-gradient-to-r from-purple-500 to-pink-500 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
               Solace
             </h1>
           </Link>
@@ -35,9 +35,9 @@ const ConversationPage = () => {
         </div>
       </header>
       
-      {/* Main Content */}
-      <main className="flex-1 flex flex-col p-2 sm:p-6">
-        <div className="flex-1 flex flex-col">
+      {/* Main Content with subtle background */}
+      <main className="flex-1 flex flex-col p-2 sm:p-6 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-solace-dark-purple/20 dark:to-solace-dark-blue/30">
+        <div className="flex-1 flex flex-col max-w-6xl mx-auto w-full">
           <ConversationInterface initialFeeling={feeling} />
         </div>
       </main>
