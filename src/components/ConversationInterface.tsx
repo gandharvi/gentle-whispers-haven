@@ -261,7 +261,7 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
   return (
     <div className="solace-card h-full flex flex-col">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-3xl font-semibold">Supportive Conversation</h2>
+        <h2 className="text-3xl font-normal">Supportive Conversation</h2>
         <Button 
           variant="outline" 
           size="icon" 
@@ -272,89 +272,105 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
         </Button>
       </div>
       
-      <Tabs value={activeToolTab} onValueChange={setActiveToolTab} className="w-full mb-4">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="chat" className="text-lg">Chat</TabsTrigger>
-          <TabsTrigger value="breathing" className="text-lg">Breathing</TabsTrigger>
-          <TabsTrigger value="affirmations" className="text-lg">Affirmations</TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="chat" className="pt-4">
-          <div className="flex-1 overflow-y-auto mb-6 space-y-4 pr-2 min-h-[400px]">
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className={cn(
-                  "flex max-w-[85%] rounded-2xl px-5 py-3 animate-fade-up",
-                  message.sender === 'user'
-                    ? "ml-auto bg-solace-lavender dark:bg-solace-dark-lavender/80 text-foreground"
-                    : "bg-white/80 dark:bg-solace-dark-blue/30 border border-gray-100 dark:border-gray-700 shadow-sm"
-                )}
-              >
-                <p className="text-xl leading-relaxed">{message.text}</p>
-              </div>
-            ))}
-            <div ref={endOfMessagesRef} />
-          </div>
-          
-          <div className="border-t pt-4 mt-auto">
-            <div className="flex items-center space-x-2">
-              <Button
-                variant="outline"
-                size="icon"
-                className={cn(isListening && "bg-red-100 text-red-500 animate-pulse")}
-                onClick={toggleListening}
-              >
-                {isListening ? <MicOff size={18} /> : <Mic size={18} />}
-              </Button>
-              
-              <Textarea
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Type your message or click the mic to speak..."
-                className="min-h-[40px] max-h-[120px] resize-none flex-1 overflow-y-auto text-xl"
-                rows={1}
-              />
-              
-              <Button 
-                size="icon" 
-                onClick={() => sendMessage()}
-                disabled={!input.trim() || isLoading}
-                className={isLoading ? "opacity-70" : ""}
-              >
-                <Send size={18} />
-              </Button>
-            </div>
+      <div className="flex gap-4">
+        <div className="flex-1">
+          <Tabs value={activeToolTab} onValueChange={setActiveToolTab} className="w-full mb-4">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="chat" className="text-lg font-normal">Chat</TabsTrigger>
+              <TabsTrigger value="breathing" className="text-lg font-normal">Breathing</TabsTrigger>
+              <TabsTrigger value="affirmations" className="text-lg font-normal">Affirmations</TabsTrigger>
+            </TabsList>
             
-            {isListening && (
-              <p className="text-xs text-center mt-2 text-red-500">
-                Listening... Speak clearly
-              </p>
-            )}
-          </div>
-        </TabsContent>
+            <TabsContent value="chat" className="pt-4">
+              <div className="flex-1 overflow-y-auto mb-6 space-y-4 pr-2 min-h-[400px]">
+                {messages.map((message) => (
+                  <div
+                    key={message.id}
+                    className={cn(
+                      "flex max-w-[85%] rounded-2xl px-5 py-3 animate-fade-up",
+                      message.sender === 'user'
+                        ? "ml-auto bg-solace-lavender dark:bg-solace-dark-lavender/80 text-foreground"
+                        : "bg-white/80 dark:bg-solace-dark-blue/30 border border-gray-100 dark:border-gray-700 shadow-sm"
+                    )}
+                  >
+                    <p className="text-xl leading-relaxed font-normal">{message.text}</p>
+                  </div>
+                ))}
+                <div ref={endOfMessagesRef} />
+              </div>
+              
+              <div className="border-t pt-4 mt-auto">
+                <div className="flex items-center space-x-2">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className={cn(isListening && "bg-red-100 text-red-500 animate-pulse")}
+                    onClick={toggleListening}
+                  >
+                    {isListening ? <MicOff size={18} /> : <Mic size={18} />}
+                  </Button>
+                  
+                  <Textarea
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Type your message or click the mic to speak..."
+                    className="min-h-[40px] max-h-[120px] resize-none flex-1 overflow-y-auto text-xl"
+                    rows={1}
+                  />
+                  
+                  <Button 
+                    size="icon" 
+                    onClick={() => sendMessage()}
+                    disabled={!input.trim() || isLoading}
+                    className={isLoading ? "opacity-70" : ""}
+                  >
+                    <Send size={18} />
+                  </Button>
+                </div>
+                
+                {isListening && (
+                  <p className="text-xs text-center mt-2 text-red-500">
+                    Listening... Speak clearly
+                  </p>
+                )}
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="breathing" className="pt-4">
+              <div className="flex flex-col items-center justify-center p-4">
+                <h3 className="text-2xl font-normal mb-4">Breathing Exercise</h3>
+                <p className="text-lg text-center mb-6">
+                  Take a moment to breathe deeply and calm your mind.
+                </p>
+                <BreathingBubble />
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="affirmations" className="pt-4">
+              <div className="flex flex-col items-center justify-center p-4">
+                <h3 className="text-2xl font-normal mb-4">Daily Affirmations</h3>
+                <p className="text-lg text-center mb-6">
+                  Positive affirmations to uplift your spirits.
+                </p>
+                <AffirmationCard />
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
         
-        <TabsContent value="breathing" className="pt-4">
-          <div className="flex flex-col items-center justify-center p-4">
-            <h3 className="text-2xl font-semibold mb-4">Breathing Exercise</h3>
-            <p className="text-lg text-center mb-6">
-              Take a moment to breathe deeply and calm your mind.
-            </p>
+        <div className="w-1/3 space-y-4">
+          <div className="solace-card border border-solace-lavender/30 dark:border-solace-dark-lavender/30 h-1/2 overflow-hidden">
+            <h3 className="text-xl font-normal mb-2">Breathing</h3>
             <BreathingBubble />
           </div>
-        </TabsContent>
-        
-        <TabsContent value="affirmations" className="pt-4">
-          <div className="flex flex-col items-center justify-center p-4">
-            <h3 className="text-2xl font-semibold mb-4">Daily Affirmations</h3>
-            <p className="text-lg text-center mb-6">
-              Positive affirmations to uplift your spirits.
-            </p>
+          
+          <div className="solace-card border border-solace-lavender/30 dark:border-solace-dark-lavender/30 h-1/2 overflow-hidden">
+            <h3 className="text-xl font-normal mb-2">Affirmation</h3>
             <AffirmationCard />
           </div>
-        </TabsContent>
-      </Tabs>
+        </div>
+      </div>
     </div>
   );
 };

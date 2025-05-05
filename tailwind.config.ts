@@ -123,7 +123,6 @@ export default {
 			},
 			fontFamily: {
 				'alegreya': ['Alegreya', 'serif'],
-				'bree': ['Bree Serif', 'serif']
 			}
 		}
 	},

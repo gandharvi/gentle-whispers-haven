@@ -73,7 +73,7 @@ const FeelingWheel: React.FC = () => {
         description: `Let's talk about feeling ${feeling}`,
       });
       
-      // Pass the selected feeling as a URL parameter
+      // Pass the selected feeling as a URL parameter without storing it in the session
       navigate(`/conversation?feeling=${encodeURIComponent(feeling)}`);
     }
   };
@@ -83,7 +83,7 @@ const FeelingWheel: React.FC = () => {
       <div className="mb-8">
         {selectedEmotion ? (
           <div className="text-center mb-4">
-            <h3 className="text-2xl font-semibold mb-2">
+            <h3 className="text-2xl font-normal mb-2">
               {selectedSubEmotion ? `I'm feeling ${selectedSubEmotion}` : `I'm feeling ${selectedEmotion}`}
             </h3>
             {selectedEmotion && !selectedSubEmotion && (
@@ -96,13 +96,13 @@ const FeelingWheel: React.FC = () => {
                     setSelectedEmotion(null);
                     setSelectedSubEmotion(null);
                   }}
-                  className="py-2 px-4 bg-solace-lavender dark:bg-solace-dark-lavender text-foreground rounded-full text-base hover:opacity-90 transition-opacity"
+                  className="py-2 px-4 bg-solace-lavender dark:bg-solace-dark-lavender text-foreground rounded-full text-base hover:opacity-90 transition-opacity font-normal"
                 >
                   Start Over
                 </button>
                 <Button 
                   onClick={navigateToConversation}
-                  className="flex items-center gap-2 text-base"
+                  className="flex items-center gap-2 text-base font-normal"
                 >
                   Talk about this feeling <ArrowRight size={16} />
                 </Button>
@@ -111,7 +111,7 @@ const FeelingWheel: React.FC = () => {
           </div>
         ) : (
           <div className="text-center mb-8">
-            <h3 className="text-2xl font-semibold">How are you feeling today?</h3>
+            <h3 className="text-2xl font-normal">How are you feeling today?</h3>
             <p className="text-lg">Click on the emotion that resonates with you</p>
           </div>
         )}
@@ -125,7 +125,7 @@ const FeelingWheel: React.FC = () => {
               key={emotion.name}
               onClick={() => handleEmotionClick(emotion.name)}
               className={cn(
-                "p-6 rounded-full aspect-square flex items-center justify-center text-xl font-bold transition-transform hover:scale-105 border",
+                "p-6 rounded-full aspect-square flex items-center justify-center text-xl font-normal transition-transform hover:scale-105 border",
                 emotion.color,
                 emotion.textColor
               )}
@@ -142,7 +142,7 @@ const FeelingWheel: React.FC = () => {
               key={subEmotion}
               onClick={() => handleSubEmotionClick(subEmotion)}
               className={cn(
-                "p-4 rounded-xl flex items-center justify-center text-lg font-medium transition-transform hover:scale-105 border",
+                "p-4 rounded-xl flex items-center justify-center text-lg font-normal transition-transform hover:scale-105 border",
                 getSelectedEmotionData()?.color,
                 getSelectedEmotionData()?.textColor,
                 selectedSubEmotion === subEmotion ? "ring-4 ring-solace-lavender/50 dark:ring-solace-dark-lavender/50" : ""
