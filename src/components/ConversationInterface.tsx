@@ -1,14 +1,15 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Mic, Send, MicOff, Volume2, VolumeX, Sparkles, Wind } from 'lucide-react';
+import { Mic, Send, MicOff, Volume2, VolumeX, ArrowLeft, Gamepad, PaintBrush, CircleDashed } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from '@/components/ui/use-toast';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import BreathingBubble from '@/components/BreathingBubble';
 import AffirmationCard from '@/components/AffirmationCard';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface Message {
   id: string;
@@ -54,6 +55,14 @@ interface ConversationInterfaceProps {
   initialFeeling?: string | null;
 }
 
+// Intense emotion keywords to detect
+const intenseEmotions = [
+  'anxious', 'anxiety', 'panic', 'overwhelmed', 'stressed', 
+  'depressed', 'sad', 'hopeless', 'angry', 'furious',
+  'scared', 'terrified', 'worried', 'exhausted', 'lonely',
+  'desperate', 'miserable', 'devastated', 'heartbroken', 'hurt'
+];
+
 const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFeeling }) => {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -68,9 +77,11 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
   const [audioEnabled, setAudioEnabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [activeToolTab, setActiveToolTab] = useState('chat');
+  const [returnFromActivity, setReturnFromActivity] = useState<string | null>(null);
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const initialFeelingProcessed = useRef(false);
+  const navigate = useNavigate();
   
   // Speech recognition
   const recognitionRef = useRef<SpeechRecognition | null>(null);
@@ -162,6 +173,27 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
     scrollToBottom();
   }, [messages]);
   
+  // Handle return from activity
+  useEffect(() => {
+    if (returnFromActivity) {
+      const followUpMessage = `How do you feel after ${returnFromActivity}? Did it help?`;
+      
+      // Add AI follow-up message
+      const aiMessage: Message = {
+        id: Date.now().toString(),
+        text: followUpMessage,
+        sender: 'ai',
+        timestamp: new Date()
+      };
+      
+      setMessages(prev => [...prev, aiMessage]);
+      speakMessage(followUpMessage);
+      
+      // Clear the return state
+      setReturnFromActivity(null);
+    }
+  }, [returnFromActivity]);
+  
   const scrollToBottom = () => {
     endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -195,6 +227,31 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
     
     synthRef.current.text = text;
     window.speechSynthesis.speak(synthRef.current);
+  };
+  
+  const detectIntenseEmotion = (message: string): boolean => {
+    const messageLower = message.toLowerCase();
+    return intenseEmotions.some(emotion => messageLower.includes(emotion));
+  };
+  
+  const suggestActivity = (emotion: string): Message => {
+    let suggestion;
+    
+    // Determine which activity to suggest based on the emotion
+    if (['anxious', 'stressed', 'overwhelmed', 'worried', 'panic'].some(e => emotion.includes(e))) {
+      suggestion = "I notice you seem to be feeling quite intense emotions right now. Would you like to try a breathing exercise or the leaf catcher game to help calm your mind?";
+    } else if (['sad', 'depressed', 'hopeless', 'lonely', 'miserable'].some(e => emotion.includes(e))) {
+      suggestion = "I can see you're going through a difficult emotional time. Would it help to express yourself with the drawing canvas or check the feeling wheel to explore your emotions further?";
+    } else {
+      suggestion = "It sounds like you're experiencing some intense feelings. Would you like to try an activity to help process these emotions? You could try the breathing exercise, feeling wheel, drawing canvas, or a calming game.";
+    }
+    
+    return {
+      id: Date.now().toString(),
+      text: suggestion,
+      sender: 'ai',
+      timestamp: new Date()
+    };
   };
   
   const fetchAIResponse = async (userMessage: string) => {
@@ -235,6 +292,14 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     
+    // Check for intense emotions
+    if (detectIntenseEmotion(messageText)) {
+      const suggestionMessage = suggestActivity(messageText);
+      setMessages(prev => [...prev, suggestionMessage]);
+      speakMessage(suggestionMessage.text);
+      return;
+    }
+    
     // Get AI response
     const aiText = await fetchAIResponse(messageText);
     
@@ -250,6 +315,40 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
     // Speak the AI response
     speakMessage(aiText);
   };
+  
+  const navigateToActivity = (activity: string) => {
+    switch(activity) {
+      case 'breathing':
+        setActiveToolTab('breathing');
+        break;
+      case 'affirmations':
+        setActiveToolTab('affirmations');
+        break;
+      case 'feeling-wheel':
+        navigate('/feeling-wheel');
+        localStorage.setItem('returnToChat', 'feeling wheel');
+        break;
+      case 'drawing':
+        navigate('/drawing');
+        localStorage.setItem('returnToChat', 'drawing');
+        break;
+      case 'leaf-catcher':
+        navigate('/leaf-catcher');
+        localStorage.setItem('returnToChat', 'the leaf catcher game');
+        break;
+      default:
+        break;
+    }
+  };
+  
+  // Check if we're returning from an activity
+  useEffect(() => {
+    const returnActivity = localStorage.getItem('returnToChat');
+    if (returnActivity) {
+      setReturnFromActivity(returnActivity);
+      localStorage.removeItem('returnToChat');
+    }
+  }, []);
   
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -344,6 +443,13 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
                   Take a moment to breathe deeply and calm your mind.
                 </p>
                 <BreathingBubble />
+                <Button 
+                  onClick={() => setActiveToolTab('chat')} 
+                  className="mt-8 flex items-center gap-2"
+                >
+                  <ArrowLeft size={16} />
+                  Return to conversation
+                </Button>
               </div>
             </TabsContent>
             
@@ -354,6 +460,13 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
                   Positive affirmations to uplift your spirits.
                 </p>
                 <AffirmationCard />
+                <Button 
+                  onClick={() => setActiveToolTab('chat')} 
+                  className="mt-8 flex items-center gap-2"
+                >
+                  <ArrowLeft size={16} />
+                  Return to conversation
+                </Button>
               </div>
             </TabsContent>
           </Tabs>
@@ -361,12 +474,10 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
         
         <div className="w-1/3 space-y-4">
           <div className="solace-card border border-solace-lavender/30 dark:border-solace-dark-lavender/30 h-1/2 overflow-hidden">
-            <h3 className="text-xl font-normal mb-2">Breathing</h3>
             <BreathingBubble />
           </div>
           
           <div className="solace-card border border-solace-lavender/30 dark:border-solace-dark-lavender/30 h-1/2 overflow-hidden">
-            <h3 className="text-xl font-normal mb-2">Affirmation</h3>
             <AffirmationCard />
           </div>
         </div>
@@ -375,8 +486,10 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
   );
 };
 
-ConversationInterface.defaultProps = {
-  initialFeeling: null
-};
+// Use default function parameters instead of defaultProps
+const ConversationInterfaceWithDefaults: React.FC<Partial<ConversationInterfaceProps>> = 
+  ({ initialFeeling = null }) => {
+    return <ConversationInterface initialFeeling={initialFeeling} />;
+  };
 
-export default ConversationInterface;
+export default ConversationInterfaceWithDefaults;

@@ -1,9 +1,9 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ArrowLeft } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 
 // Define the emotion categories and their subcategories with more faint colors
@@ -49,8 +49,16 @@ const emotions = [
 const FeelingWheel: React.FC = () => {
   const [selectedEmotion, setSelectedEmotion] = useState<string | null>(null);
   const [selectedSubEmotion, setSelectedSubEmotion] = useState<string | null>(null);
+  const [showReturnButton, setShowReturnButton] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
+
+  useEffect(() => {
+    // Check if we came from the conversation
+    const returnToChatExists = localStorage.getItem('returnToChat');
+    setShowReturnButton(!!returnToChatExists);
+  }, []);
 
   const handleEmotionClick = (emotion: string) => {
     setSelectedEmotion(emotion);
@@ -78,9 +86,26 @@ const FeelingWheel: React.FC = () => {
     }
   };
 
+  const returnToConversation = () => {
+    navigate('/conversation');
+  };
+
   return (
     <div className="max-w-4xl mx-auto w-full">
       <div className="mb-8">
+        {showReturnButton && (
+          <div className="flex justify-end mb-4">
+            <Button 
+              onClick={returnToConversation} 
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              <ArrowLeft size={16} />
+              Return to conversation
+            </Button>
+          </div>
+        )}
+        
         {selectedEmotion ? (
           <div className="text-center mb-4">
             <h3 className="text-2xl font-normal mb-2">

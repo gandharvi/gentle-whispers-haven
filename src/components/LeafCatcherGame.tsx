@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect, useRef } from 'react';
-import { Leaf } from 'lucide-react';
+import { Leaf, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
+import { useNavigate } from 'react-router-dom';
 
 interface LeafPosition {
   id: number;
@@ -36,11 +36,13 @@ const LeafCatcherGame: React.FC = () => {
   const [level, setLevel] = useState(1);
   const [timeLeft, setTimeLeft] = useState(60);
   const [motivationalMessage, setMotivationalMessage] = useState("");
+  const [showReturnButton, setShowReturnButton] = useState(false);
   
   const gameAreaRef = useRef<HTMLDivElement>(null);
   const animationFrameRef = useRef<number>(0);
   const messageTimerRef = useRef<number | null>(null);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   // Initialize game dimensions
   useEffect(() => {
@@ -57,6 +59,10 @@ const LeafCatcherGame: React.FC = () => {
     };
     
     window.addEventListener('resize', handleResize);
+    
+    // Check if we came from the conversation
+    const returnToChatExists = localStorage.getItem('returnToChat');
+    setShowReturnButton(!!returnToChatExists);
     
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -220,6 +226,10 @@ const LeafCatcherGame: React.FC = () => {
     setBasketPosition(Math.max(5, Math.min(95, position)));
   };
 
+  const returnToConversation = () => {
+    navigate('/conversation');
+  };
+
   return (
     <div className="w-full max-w-2xl mx-auto">
       <div className="flex justify-between items-center mb-4">
@@ -233,6 +243,20 @@ const LeafCatcherGame: React.FC = () => {
           <span className="font-bold">Time:</span> {timeLeft}s
         </div>
       </div>
+      
+      {/* Return button */}
+      {showReturnButton && !gameActive && (
+        <div className="flex justify-end mb-4">
+          <Button 
+            variant="outline"
+            onClick={returnToConversation}
+            className="flex items-center gap-2"
+          >
+            <ArrowLeft size={16} />
+            Return to conversation
+          </Button>
+        </div>
+      )}
       
       {/* Motivational message */}
       {motivationalMessage && (
@@ -291,9 +315,23 @@ const LeafCatcherGame: React.FC = () => {
       <div className="mt-6 text-center">
         {gameActive ? (
           <Button onClick={endGame} variant="outline" className="text-lg">End Game</Button>
-        ) : score > 0 ? (
-          <Button onClick={startGame} className="text-lg">Play Again</Button>
-        ) : null}
+        ) : (
+          <div className="flex justify-center gap-4">
+            {score > 0 && (
+              <Button onClick={startGame} className="text-lg">Play Again</Button>
+            )}
+            {showReturnButton && (
+              <Button 
+                variant="outline"
+                onClick={returnToConversation}
+                className="flex items-center gap-2 text-lg"
+              >
+                <ArrowLeft size={16} />
+                Return to conversation
+              </Button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

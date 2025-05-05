@@ -1,7 +1,8 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Palette, Eraser, RotateCcw, Save } from 'lucide-react';
+import { Palette, Eraser, RotateCcw, Save, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const DrawingCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -10,6 +11,8 @@ const DrawingCanvas: React.FC = () => {
   const [brushSize, setBrushSize] = useState(5);
   const [isEraser, setIsEraser] = useState(false);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
+  const [showReturnButton, setShowReturnButton] = useState(false);
+  const navigate = useNavigate();
 
   // Available colors
   const colors = [
@@ -40,6 +43,10 @@ const DrawingCanvas: React.FC = () => {
         setCtx(context);
       }
     }
+
+    // Check if we came from the conversation
+    const returnToChatExists = localStorage.getItem('returnToChat');
+    setShowReturnButton(!!returnToChatExists);
   }, []);
 
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
@@ -118,11 +125,25 @@ const DrawingCanvas: React.FC = () => {
     link.click();
   };
 
+  const returnToConversation = () => {
+    navigate('/conversation');
+  };
+
   return (
     <div className="solace-card mb-8">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold">Express Yourself</h2>
         <div className="flex space-x-2">
+          {showReturnButton && (
+            <Button 
+              variant="outline"
+              onClick={returnToConversation}
+              className="flex items-center gap-2 mr-2"
+            >
+              <ArrowLeft size={16} />
+              Return to conversation
+            </Button>
+          )}
           <Button 
             variant="outline" 
             size="icon" 
