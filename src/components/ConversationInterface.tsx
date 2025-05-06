@@ -335,7 +335,8 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
   const navigateToActivity = (activity: string) => {
     switch(activity) {
       case 'grounding':
-        setActiveToolTab('grounding');
+        navigate('/grounding');
+        localStorage.setItem('returnToChat', 'the grounding exercise');
         break;
       case 'affirmations':
         setActiveToolTab('affirmations');
@@ -520,7 +521,7 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
           </div>
           
           <div className="solace-card border border-solace-lavender/30 dark:border-solace-dark-lavender/30 h-1/2 overflow-hidden bg-white/60 dark:from-solace-dark-blue/60 dark:to-solace-dark-blue/30 rounded-xl">
-            <GroundingExercise />
+            <BreathingBubble />
           </div>
           
           <div className="solace-card border border-solace-lavender/30 dark:border-solace-dark-lavender/30 h-1/2 overflow-hidden bg-white/60 dark:from-solace-dark-purple/60 dark:to-solace-dark-lavender/30 rounded-xl">
