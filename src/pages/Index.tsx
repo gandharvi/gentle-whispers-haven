@@ -5,21 +5,19 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
-import { BookHeart, Menu, Heart, MessageCircle, PencilLine, Sparkles, Activity, CalendarCheck, Gamepad, ArrowLeft } from 'lucide-react';
+import { BookHeart, Menu, Heart, PencilLine, Sparkles, Activity, CalendarCheck, Gamepad, ArrowLeft } from 'lucide-react';
 import BreathingBubble from '@/components/BreathingBubble';
 import DrawingCanvas from '@/components/DrawingCanvas';
 import AffirmationCard from '@/components/AffirmationCard';
 import GroundingExercise from '@/components/GroundingExercise';
 import MoodTracker from '@/components/MoodTracker';
-import ConversationInterface from '@/components/ConversationInterface';
-import DailyAffirmation from '@/components/DailyAffirmation';
 import MoodRatingSlider from '@/components/MoodRatingSlider';
 import LeafCatcherGame from '@/components/LeafCatcherGame';
 
 const Index = () => {
   const [journalEntry, setJournalEntry] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('conversation');
+  const [activeTab, setActiveTab] = useState('drawing');
   const location = useLocation();
   
   // Handle hash fragments for direct tab navigation
@@ -27,7 +25,7 @@ const Index = () => {
     // Check if there's a hash in the URL and set the active tab accordingly
     if (location.hash) {
       const tab = location.hash.substring(1); // Remove the # character
-      const validTabs = ['conversation', 'drawing', 'grounding', 'affirmation', 'mood', 'games', 'journal'];
+      const validTabs = ['drawing', 'grounding', 'affirmation', 'mood', 'games', 'journal'];
       if (validTabs.includes(tab)) {
         setActiveTab(tab);
       }
@@ -184,11 +182,7 @@ const Index = () => {
           {/* Main Content Area */}
           <div className="space-y-6">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-7">
-                <TabsTrigger value="conversation" className="flex items-center gap-2 font-normal">
-                  <MessageCircle size={16} />
-                  <span className="hidden sm:inline">Conversation</span>
-                </TabsTrigger>
+              <TabsList className="grid w-full grid-cols-6">
                 <TabsTrigger value="drawing" className="flex items-center gap-2 font-normal">
                   <PencilLine size={16} />
                   <span className="hidden sm:inline">Drawing</span>
@@ -215,10 +209,6 @@ const Index = () => {
                 </TabsTrigger>
               </TabsList>
               
-              <TabsContent value="conversation" className="pt-4">
-                <ConversationInterface />
-              </TabsContent>
-              
               <TabsContent value="drawing" className="pt-4">
                 <DrawingCanvas />
               </TabsContent>
@@ -228,7 +218,7 @@ const Index = () => {
               </TabsContent>
               
               <TabsContent value="affirmation" className="pt-4">
-                <DailyAffirmation showOnLoad={false} />
+                <AffirmationCard />
               </TabsContent>
               
               <TabsContent value="mood" className="pt-4">
@@ -302,9 +292,6 @@ const Index = () => {
       <footer className="py-4 px-6 text-center text-foreground/60 text-sm border-t border-solace-lavender/20 dark:border-solace-dark-lavender/20 mt-8">
         <p>Solace — A safe space for emotional well-being.</p>
       </footer>
-      
-      {/* Daily Affirmation Pop-up */}
-      <DailyAffirmation showOnLoad={true} />
     </div>
   );
 };
