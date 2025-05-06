@@ -7,7 +7,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from '@/components/ui/use-toast';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import BreathingBubble from '@/components/BreathingBubble';
-import AffirmationCard from '@/components/AffirmationCard';
 import GroundingExercise from '@/components/GroundingExercise';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -485,25 +484,6 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
                 </Button>
               </div>
             </TabsContent>
-            
-            <TabsContent value="affirmations" className="flex-1 flex flex-col">
-              <div className="flex flex-col items-center justify-center p-4 h-full">
-                <h3 className="text-2xl mb-4">Daily Affirmations</h3>
-                <p className="text-lg text-center mb-6">
-                  Positive affirmations to uplift your spirits.
-                </p>
-                <div className="flex-1 flex items-center justify-center">
-                  <AffirmationCard />
-                </div>
-                <Button 
-                  onClick={() => setActiveToolTab('chat')} 
-                  className="mt-8 flex items-center gap-2 bg-solace-lavender hover:bg-solace-lavender/90 dark:bg-solace-dark-lavender dark:hover:bg-solace-dark-lavender/90"
-                >
-                  <ArrowLeft size={16} />
-                  Return to conversation
-                </Button>
-              </div>
-            </TabsContent>
           </Tabs>
         </div>
         
@@ -520,12 +500,8 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
             </Button>
           </div>
           
-          <div className="solace-card border border-solace-lavender/30 dark:border-solace-dark-lavender/30 h-1/2 overflow-hidden bg-white/60 dark:from-solace-dark-blue/60 dark:to-solace-dark-blue/30 rounded-xl">
+          <div className="solace-card border border-solace-lavender/30 dark:border-solace-dark-lavender/30 h-full overflow-hidden bg-white/60 dark:from-solace-dark-blue/60 dark:to-solace-dark-blue/30 rounded-xl">
             <BreathingBubble />
-          </div>
-          
-          <div className="solace-card border border-solace-lavender/30 dark:border-solace-dark-lavender/30 h-1/2 overflow-hidden bg-white/60 dark:from-solace-dark-purple/60 dark:to-solace-dark-lavender/30 rounded-xl">
-            <AffirmationCard />
           </div>
         </div>
       </div>
