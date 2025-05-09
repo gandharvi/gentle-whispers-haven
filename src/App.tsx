@@ -13,6 +13,9 @@ import Index from "./pages/Index";
 import FeelingWheelPage from "./pages/FeelingWheelPage";
 import LeafCatcherPage from "./pages/LeafCatcherPage";
 import { ThemeProvider } from "./components/ThemeProvider";
+import AuthPage from "./pages/AuthPage";
+import { AuthProvider } from "./contexts/AuthContext";
+import ProfilePage from "./pages/ProfilePage";
 
 const queryClient = new QueryClient();
 
@@ -23,17 +26,21 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/conversation" element={<ConversationPage />} />
-            <Route path="/drawing" element={<DrawingPage />} />
-            <Route path="/grounding" element={<GroundingPage />} />
-            <Route path="/index" element={<Index />} />
-            <Route path="/feeling-wheel" element={<FeelingWheelPage />} />
-            <Route path="/leaf-catcher" element={<LeafCatcherPage />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <AuthProvider>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/conversation" element={<ConversationPage />} />
+              <Route path="/drawing" element={<DrawingPage />} />
+              <Route path="/grounding" element={<GroundingPage />} />
+              <Route path="/index" element={<Index />} />
+              <Route path="/feeling-wheel" element={<FeelingWheelPage />} />
+              <Route path="/leaf-catcher" element={<LeafCatcherPage />} />
+              <Route path="/auth" element={<AuthPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

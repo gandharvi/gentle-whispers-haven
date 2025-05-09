@@ -1,12 +1,15 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Heart, MessageCircle, PencilLine, Sparkles, Activity, Leaf, Gamepad, BookHeart } from 'lucide-react';
+import { Heart, MessageCircle, PencilLine, Sparkles, Activity, Leaf, Gamepad, BookHeart, User, LogIn } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import DailyAffirmation from '@/components/DailyAffirmation';
+import { useAuth } from '@/contexts/AuthContext';
 
 const HomePage = () => {
+  const { user, signOut } = useAuth();
+
   return (
     <div className="min-h-screen transition-colors duration-300">
       {/* Header */}
@@ -18,7 +21,32 @@ const HomePage = () => {
           </h1>
         </div>
         
-        <div className="flex items-center">
+        <div className="flex items-center gap-3">
+          {user ? (
+            <div className="flex items-center gap-3">
+              <Link to="/profile">
+                <Button variant="ghost" size="sm" className="flex items-center gap-2 text-base">
+                  <User size={18} />
+                  <span>Profile</span>
+                </Button>
+              </Link>
+              <Button variant="outline" size="sm" onClick={signOut}>
+                Sign Out
+              </Button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3">
+              <Link to="/auth?mode=signin">
+                <Button variant="ghost" size="sm" className="flex items-center gap-2 text-base">
+                  <LogIn size={18} />
+                  <span>Sign In</span>
+                </Button>
+              </Link>
+              <Link to="/auth?mode=signup">
+                <Button variant="outline" size="sm">Sign Up</Button>
+              </Link>
+            </div>
+          )}
           <ThemeToggle />
         </div>
       </header>
