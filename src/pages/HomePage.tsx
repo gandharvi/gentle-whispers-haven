@@ -86,7 +86,7 @@ const HomePage = () => {
               {/* Mood Rating Feature */}
               <div className="solace-card flex flex-col items-center text-center p-6">
                 <div className="mb-4 bg-solace-dark-purple/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
-                  <Activity className="h-10 w-10 text-solace-dark-purple dark:text-solace-dark-lavender" />
+                  <Activity className="h-10 w-10 text-purple-500/30 dark:text-purple-400/30" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Mood Rating</h3>
                 <p className="text-lg text-foreground/70 mb-4">
@@ -102,7 +102,7 @@ const HomePage = () => {
               {/* Drawing Feature */}
               <div className="solace-card flex flex-col items-center text-center p-6">
                 <div className="mb-4 bg-solace-dark-purple/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
-                  <PencilLine className="h-10 w-10 text-solace-dark-purple dark:text-solace-dark-lavender" />
+                  <PencilLine className="h-10 w-10 text-purple-500/30 dark:text-purple-400/30" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Creative Drawing</h3>
                 <p className="text-lg text-foreground/70 mb-4">
@@ -118,7 +118,7 @@ const HomePage = () => {
               {/* Grounding Exercise Feature */}
               <div className="solace-card flex flex-col items-center text-center p-6">
                 <div className="mb-4 bg-solace-dark-purple/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
-                  <Sparkles className="h-10 w-10 text-solace-dark-purple dark:text-solace-dark-lavender" />
+                  <Sparkles className="h-10 w-10 text-purple-500/30 dark:text-purple-400/30" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Grounding Exercises</h3>
                 <p className="text-lg text-foreground/70 mb-4">
@@ -134,7 +134,7 @@ const HomePage = () => {
               {/* Journal Feature */}
               <div className="solace-card flex flex-col items-center text-center p-6">
                 <div className="mb-4 bg-solace-dark-purple/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
-                  <BookHeart className="h-10 w-10 text-solace-dark-purple dark:text-solace-dark-lavender" />
+                  <BookHeart className="h-10 w-10 text-purple-500/30 dark:text-purple-400/30" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Journaling</h3>
                 <p className="text-lg text-foreground/70 mb-4">
@@ -150,7 +150,7 @@ const HomePage = () => {
               {/* Daily Affirmation Feature */}
               <div className="solace-card flex flex-col items-center text-center p-6">
                 <div className="mb-4 bg-solace-dark-purple/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
-                  <Sparkles className="h-10 w-10 text-solace-dark-purple dark:text-solace-dark-lavender" />
+                  <Sparkles className="h-10 w-10 text-purple-500/30 dark:text-purple-400/30" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Daily Affirmations</h3>
                 <p className="text-lg text-foreground/70 mb-4">
@@ -166,7 +166,7 @@ const HomePage = () => {
               {/* Feeling Wheel Feature */}
               <div className="solace-card flex flex-col items-center text-center p-6">
                 <div className="mb-4 bg-solace-dark-purple/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
-                  <Activity className="h-10 w-10 text-solace-dark-purple dark:text-solace-dark-lavender" />
+                  <Activity className="h-10 w-10 text-purple-500/30 dark:text-purple-400/30" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Feeling Wheel</h3>
                 <p className="text-lg text-foreground/70 mb-4">
@@ -189,7 +189,7 @@ const HomePage = () => {
             </p>
             <div className="solace-card flex flex-col items-center text-center p-6 max-w-md mx-auto">
               <div className="mb-4 bg-solace-dark-purple/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
-                <Leaf className="h-10 w-10 text-solace-dark-purple dark:text-solace-dark-lavender" />
+                <Leaf className="h-10 w-10 text-purple-500/30 dark:text-purple-400/30" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Leaf Catcher Game</h3>
               <p className="text-lg text-foreground/70 mb-4">
