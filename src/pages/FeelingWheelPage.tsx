@@ -13,7 +13,7 @@ const FeelingWheelPage = () => {
       <header className="py-4 px-6 flex justify-between items-center border-b border-solace-lavender/20 dark:border-solace-dark-lavender/20 shadow-sm bg-white/80 dark:bg-solace-dark-purple/80 backdrop-blur-sm">
         <div className="flex items-center">
           <Link to="/" className="flex items-center">
-            <Heart className="h-7 w-7 mr-2 text-solace-lavender dark:text-solace-dark-lavender" />
+            <Heart className="h-7 w-7 mr-2 text-purple-500/70 dark:text-purple-400/70" />
             <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
               Solace
             </h1>
