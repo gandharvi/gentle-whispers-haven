@@ -10,7 +10,6 @@ import BreathingBubble from '@/components/BreathingBubble';
 import GroundingExercise from '@/components/GroundingExercise';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import AffirmationCard from '@/components/AffirmationCard';
 
 interface Message {
   id: string;
@@ -501,12 +500,8 @@ const ConversationInterface: React.FC<ConversationInterfaceProps> = ({ initialFe
             </Button>
           </div>
           
-          <div className="solace-card border border-solace-lavender/30 dark:border-solace-dark-lavender/30 overflow-hidden bg-white/60 dark:from-solace-dark-blue/60 dark:to-solace-dark-blue/30 rounded-xl h-1/2">
+          <div className="solace-card border border-solace-lavender/30 dark:border-solace-dark-lavender/30 overflow-hidden bg-white/60 dark:from-solace-dark-blue/60 dark:to-solace-dark-blue/30 rounded-xl h-full">
             <BreathingBubble />
-          </div>
-          
-          <div className="solace-card border border-solace-lavender/30 dark:border-solace-dark-lavender/30 overflow-hidden bg-white/60 dark:from-solace-dark-blue/60 dark:to-solace-dark-blue/30 rounded-xl h-1/2">
-            <AffirmationCard />
           </div>
         </div>
       </div>

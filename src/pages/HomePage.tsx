@@ -15,7 +15,7 @@ const HomePage = () => {
       {/* Header */}
       <header className="py-4 px-6 flex justify-between items-center border-b border-solace-lavender/20 dark:border-solace-dark-lavender/20 shadow-sm bg-white/80 dark:bg-solace-dark-purple/80 backdrop-blur-sm">
         <div className="flex items-center">
-          <Heart className="h-7 w-7 mr-2 text-solace-dark-purple dark:text-solace-dark-lavender" />
+          <Heart className="h-7 w-7 mr-2 text-purple-500/50 dark:text-purple-400/50" />
           <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-500 dark:to-pink-500 bg-clip-text text-transparent">
             Solace
           </h1>
