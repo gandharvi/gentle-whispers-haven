@@ -15,8 +15,8 @@ const HomePage = () => {
       {/* Header */}
       <header className="py-4 px-6 flex justify-between items-center border-b border-solace-lavender/20 dark:border-solace-dark-lavender/20 shadow-sm bg-white/80 dark:bg-solace-dark-purple/80 backdrop-blur-sm">
         <div className="flex items-center">
-          <Heart className="h-7 w-7 mr-2 text-solace-lavender dark:text-solace-dark-lavender" />
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
+          <Heart className="h-7 w-7 mr-2 text-solace-dark-purple dark:text-solace-dark-lavender" />
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-500 dark:to-pink-500 bg-clip-text text-transparent">
             Solace
           </h1>
         </div>
@@ -54,7 +54,7 @@ const HomePage = () => {
       {/* Main Content */}
       <main className="solace-container py-8">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-500 to-pink-500 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-500 dark:to-pink-500 bg-clip-text text-transparent">
             Welcome to Solace
           </h1>
           <p className="text-xl md:text-2xl font-medium text-foreground/80 max-w-2xl mx-auto">
@@ -85,8 +85,8 @@ const HomePage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {/* Mood Rating Feature */}
               <div className="solace-card flex flex-col items-center text-center p-6">
-                <div className="mb-4 bg-solace-lavender/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
-                  <Activity className="h-10 w-10 text-solace-lavender dark:text-solace-dark-lavender" />
+                <div className="mb-4 bg-solace-dark-purple/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
+                  <Activity className="h-10 w-10 text-solace-dark-purple dark:text-solace-dark-lavender" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Mood Rating</h3>
                 <p className="text-lg text-foreground/70 mb-4">
@@ -101,8 +101,8 @@ const HomePage = () => {
               
               {/* Drawing Feature */}
               <div className="solace-card flex flex-col items-center text-center p-6">
-                <div className="mb-4 bg-solace-lavender/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
-                  <PencilLine className="h-10 w-10 text-solace-lavender dark:text-solace-dark-lavender" />
+                <div className="mb-4 bg-solace-dark-purple/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
+                  <PencilLine className="h-10 w-10 text-solace-dark-purple dark:text-solace-dark-lavender" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Creative Drawing</h3>
                 <p className="text-lg text-foreground/70 mb-4">
@@ -117,8 +117,8 @@ const HomePage = () => {
               
               {/* Grounding Exercise Feature */}
               <div className="solace-card flex flex-col items-center text-center p-6">
-                <div className="mb-4 bg-solace-lavender/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
-                  <Sparkles className="h-10 w-10 text-solace-lavender dark:text-solace-dark-lavender" />
+                <div className="mb-4 bg-solace-dark-purple/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
+                  <Sparkles className="h-10 w-10 text-solace-dark-purple dark:text-solace-dark-lavender" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Grounding Exercises</h3>
                 <p className="text-lg text-foreground/70 mb-4">
@@ -133,8 +133,8 @@ const HomePage = () => {
               
               {/* Journal Feature */}
               <div className="solace-card flex flex-col items-center text-center p-6">
-                <div className="mb-4 bg-solace-lavender/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
-                  <BookHeart className="h-10 w-10 text-solace-lavender dark:text-solace-dark-lavender" />
+                <div className="mb-4 bg-solace-dark-purple/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
+                  <BookHeart className="h-10 w-10 text-solace-dark-purple dark:text-solace-dark-lavender" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Journaling</h3>
                 <p className="text-lg text-foreground/70 mb-4">
@@ -149,8 +149,8 @@ const HomePage = () => {
               
               {/* Daily Affirmation Feature */}
               <div className="solace-card flex flex-col items-center text-center p-6">
-                <div className="mb-4 bg-solace-lavender/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
-                  <Sparkles className="h-10 w-10 text-solace-lavender dark:text-solace-dark-lavender" />
+                <div className="mb-4 bg-solace-dark-purple/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
+                  <Sparkles className="h-10 w-10 text-solace-dark-purple dark:text-solace-dark-lavender" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Daily Affirmations</h3>
                 <p className="text-lg text-foreground/70 mb-4">
@@ -165,8 +165,8 @@ const HomePage = () => {
               
               {/* Feeling Wheel Feature */}
               <div className="solace-card flex flex-col items-center text-center p-6">
-                <div className="mb-4 bg-solace-lavender/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
-                  <Activity className="h-10 w-10 text-solace-lavender dark:text-solace-dark-lavender" />
+                <div className="mb-4 bg-solace-dark-purple/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
+                  <Activity className="h-10 w-10 text-solace-dark-purple dark:text-solace-dark-lavender" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Feeling Wheel</h3>
                 <p className="text-lg text-foreground/70 mb-4">
@@ -188,8 +188,8 @@ const HomePage = () => {
               Sometimes a simple activity can help calm your mind. Try our Leaf Catcher game for a moment of mindful focus.
             </p>
             <div className="solace-card flex flex-col items-center text-center p-6 max-w-md mx-auto">
-              <div className="mb-4 bg-solace-lavender/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
-                <Leaf className="h-10 w-10 text-solace-lavender dark:text-solace-dark-lavender" />
+              <div className="mb-4 bg-solace-dark-purple/10 dark:bg-solace-dark-lavender/10 p-4 rounded-full">
+                <Leaf className="h-10 w-10 text-solace-dark-purple dark:text-solace-dark-lavender" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Leaf Catcher Game</h3>
               <p className="text-lg text-foreground/70 mb-4">
